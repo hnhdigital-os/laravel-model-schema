@@ -2,8 +2,6 @@
 
 namespace HnhDigital\ModelAttributes\Concerns;
 
-use Illuminate\Support\Str;
-
 trait GuardsAttributes
 {
     /**
