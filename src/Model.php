@@ -11,10 +11,10 @@ namespace HnhDigital\ModelAttributes;
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes as EloquentHasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttributes;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 /**
  * This is the Model class.
@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttrib
  */
 class Model extends EloquentModel
 {
-
     use EloquentGuardsAttributes, Concerns\GuardsAttributes {
         Concerns\GuardsAttributes::getFillable insteadof EloquentGuardsAttributes;
         Concerns\GuardsAttributes::fillable insteadof EloquentGuardsAttributes;
@@ -191,7 +190,7 @@ class Model extends EloquentModel
      * Assign an array of data to this model.
      *
      * @param array $data
-     * 
+     *
      * @return $this
      */
     public function assign($data)
@@ -229,7 +228,6 @@ class Model extends EloquentModel
         });
 
         self::retrieved(function ($model) {
-
         });
 
         parent::boot();

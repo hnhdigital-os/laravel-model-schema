@@ -64,7 +64,7 @@ trait HasAttributes
     /**
      * Is key a valid attribute?
      *
-     * @return boolean
+     * @return bool
      */
     public function isValidAttribute($key)
     {
@@ -76,7 +76,7 @@ trait HasAttributes
      *
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
     public function hasWriteAccess($key)
     {
@@ -154,8 +154,9 @@ trait HasAttributes
     /**
      * Cast an attribute to a native PHP type.
      *
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed  $value
+     *
      * @return mixed
      */
     protected function castAttribute($key, $value)
@@ -178,7 +179,7 @@ trait HasAttributes
 
     /**
      * Get the method to cast the value of this given key.
-     * (when using getAttribute)
+     * (when using getAttribute).
      *
      * @param string $key
      *
@@ -286,7 +287,7 @@ trait HasAttributes
 
     /**
      * Get the method to cast the value of this given key.
-     * (when using setAttribute)
+     * (when using setAttribute).
      *
      * @param string $key
      *
@@ -391,7 +392,6 @@ trait HasAttributes
         $this->validator = Validator::make($this->getDirty(), $this->getAttributeRules());
 
         if ($this->validator->fails()) {
-
             return false;
         }
 
@@ -504,8 +504,9 @@ trait HasAttributes
     /**
      * Dynamically set attributes on the model.
      *
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed  $value
+     *
      * @return void
      */
     public function __set($key, $value)
