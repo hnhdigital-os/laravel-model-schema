@@ -408,6 +408,7 @@ trait HasAttributes
         $result = [];
         $attributes = $this->getAttributesFromStructure();
         $casts = $this->getCasts();
+        $casts_back = $this->getAttributesFromStructure('cast-back', true);
         $rules = $this->getAttributesFromStructure('rules', true);
 
         // Build full rule for each attribute.
@@ -418,6 +419,10 @@ trait HasAttributes
                 $result[$key][] = 'sometimes';
             }
         }
+
+        // If any casts back are configured, replace the value found in casts.
+        // Handy if we read integer values as datetime, but save back as an integer.
+        $casts = array_merge($casts, $casts_back);
 
         // Build full rule for each attribute.
         foreach ($casts as $key => $cast_type) {

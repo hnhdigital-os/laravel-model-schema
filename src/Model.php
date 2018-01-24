@@ -215,7 +215,11 @@ class Model extends EloquentModel
         self::creating(function ($model) {
             $model->setDefaultValuesForAttributes();
             if (!$model->savingValidation()) {
-                return false;
+                $validator = $model->getValidator();
+                $validation_messages = implode(' ', $validator->errors()->all());
+                $message = sprintf('Validation failed on creating %s. %s', $model->getTable(), $validation_messages);
+
+                throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
         });
 
@@ -223,7 +227,11 @@ class Model extends EloquentModel
         // Validate dirty attributes before commiting to save.
         self::updating(function ($model) {
             if (!$model->savingValidation()) {
-                return false;
+                $validator = $model->getValidator();
+                $validation_messages = implode(' ', $validator->errors()->all());
+                $message = sprintf('Validation failed on saving %s (%s). %s', $model->getTable(), $model->getKey(), $validation_messages);
+
+                throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
         });
 
