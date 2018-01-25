@@ -6,7 +6,7 @@ class ValidationException extends \Exception
 {
     /**
      * Validator.
-     * 
+     *
      * @var Validator
      */
     protected $validator;
@@ -15,7 +15,7 @@ class ValidationException extends \Exception
      * Exception constructor.
      *
      * @param string         $message
-     * @param integer        $code
+     * @param int            $code
      * @param Exception|null $previous
      * @param Validator|null $validator
      */
