@@ -427,7 +427,7 @@ trait HasAttributes
                     $value = (string) $value;
                     break;
                 case 'boolean':
-                    $value = (boolean) (int) $value;
+                    $value = (bool) (int) $value;
                     break;
                 case 'integer':
                     $value = (int) $value;
