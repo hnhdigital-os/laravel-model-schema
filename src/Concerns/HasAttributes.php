@@ -389,6 +389,7 @@ trait HasAttributes
      */
     public function savingValidation()
     {
+        $this->preValidationCast();
         $this->validator = Validator::make($this->getDirty(), $this->getAttributeRules());
 
         if ($this->validator->fails()) {
@@ -396,6 +397,53 @@ trait HasAttributes
         }
 
         return true;
+    }
+
+    /**
+     * Before validating, ensure the values are correctly casted.
+     *
+     * Mostly integer or boolean values where they can be set to either.
+     * eg 1 for true.
+     *
+     * @return void
+     */
+    private function preValidationCast()
+    {
+        $rules = $this->getAttributeRules();
+
+        // Check each dirty attribute.
+        foreach ($this->getDirty() as $key => $value) {
+            // Get the rules.
+            $rules_array = explode('|', array_get($rules, $key, ''));
+
+            // First item is always the cast type.
+            $cast = array_get($rules_array, 0, false);
+
+            // Check if the value can be nullable.
+            $nullable = in_array('nullable', $rules_array);
+
+            switch ($cast) {
+                case 'string':
+                    $value = (string) $value;
+                    break;
+                case 'boolean':
+                    $value = (boolean) (int) $value;
+                    break;
+                case 'integer':
+                    $value = (int) $value;
+                    break;
+                case 'numeric':
+                    $value = (float) preg_replace('/[^0-9.]*/', '', $value);
+                    break;
+            }
+
+            // Value is empty, let's nullify.
+            if (empty($value) && $nullable) {
+                $value = null;
+            }
+
+            $this->attributes[$key] = $value;
+        }
     }
 
     /**
