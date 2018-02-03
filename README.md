@@ -37,7 +37,7 @@ Via composer:
 
 ## Configuration
 
-### Enable the model.
+### Enable the model
 
 Enable the model on any given model.
 
@@ -52,7 +52,7 @@ class SomeModel extends Model
 
 We recommend implementing a shared base model that you extend.
 
-### Convert
+### Convert your current properties
 
 The schema for a model is implemented using a protected property.
 
