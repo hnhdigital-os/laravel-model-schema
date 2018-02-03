@@ -7,7 +7,7 @@ ___  ___          _      _ _____      _
 \_|  |_/\___/ \__,_|\___|_\____/ \___|_| |_|\___|_| |_| |_|\__,_|
 ```
 
-Implements a schema approach to models. Combines the casts, fillable, hidden arrays into a single schema array. Allows custom casts and more.
+Implements a schema approach to models. Combines the casts, fillable, hidden properties into a single schema property. This package provides the ability to store and validate automatically and implement custom casting.
 
 [![Latest Stable Version](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/v/stable.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Total Downloads](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/downloads.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Latest Unstable Version](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/v/unstable.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Built for Laravel](https://img.shields.io/badge/Built_for-Laravel-green.svg)](https://laravel.com/) [![License](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/license.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://patreon.com/RoccoHoward)
 
@@ -37,6 +37,8 @@ Via composer:
 
 ## Configuration
 
+### Enable the model.
+
 Enable the model on any given model.
 
 ```php
@@ -46,6 +48,49 @@ class SomeModel extends Model
 {
 
 }
+```
+
+We recommend implementing a shared base model that you extend.
+
+### Convert
+
+The schema for a model is implemented using a protected property.
+
+Here's an example:
+
+```php
+    /**
+     * Describe your model.
+     *
+     * @var array
+     */
+    protected $schema = [
+        'id' => [
+            'cast'    => 'integer',
+            'guarded' => true,
+        ],
+        'name' => [
+            'cast'     => 'string',
+            'rules'    => 'max:255',
+            'fillable' => true,
+        ],
+        'created_at' => [
+            'cast'    => 'datetime',
+            'guarded' => true,
+            'log'     => false,
+            'hidden'  => true,
+        ],
+        'updated_at' => [
+            'cast'    => 'datetime',
+            'guarded' => true,
+            'hidden'  => true,
+        ],
+        'deleted_at' => [
+            'cast'    => 'datetime',
+            'rules'  => 'nullable',
+            'hidden'  => true,
+        ],
+    ];
 ```
 
 ## Contributing
