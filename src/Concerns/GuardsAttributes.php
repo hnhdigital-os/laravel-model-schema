@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\ModelAttributes\Concerns;
+namespace HnhDigital\ModelSchema\Concerns;
 
 trait GuardsAttributes
 {
@@ -11,7 +11,7 @@ trait GuardsAttributes
      */
     public function getFillable()
     {
-        return $this->getAttributesFromStructure('fillable');
+        return $this->getAttributesFromSchema('fillable');
     }
 
     /**
@@ -23,7 +23,7 @@ trait GuardsAttributes
      */
     public function fillable(array $fillable)
     {
-        $this->updateStructure('fillable', $fillable, true, true, false);
+        $this->updateSchema('fillable', $fillable, true, true, false);
 
         return $this;
     }
@@ -35,9 +35,9 @@ trait GuardsAttributes
      */
     public function getGuarded()
     {
-        $guarded_create = !$this->exists ? $this->getAttributesFromStructure('guarded-create') : [];
-        $guarded_update = $this->exists ? $this->getAttributesFromStructure('guarded-update') : [];
-        $guarded = $this->getAttributesFromStructure('guarded');
+        $guarded_create = !$this->exists ? $this->getAttributesFromSchema('guarded-create') : [];
+        $guarded_update = $this->exists ? $this->getAttributesFromSchema('guarded-update') : [];
+        $guarded = $this->getAttributesFromSchema('guarded');
 
         return array_merge($guarded_create, $guarded_update, $guarded);
     }
@@ -51,7 +51,7 @@ trait GuardsAttributes
      */
     public function guard(array $guarded)
     {
-        $this->updateStructure('guarded', $guarded, true, true, false);
+        $this->updateSchema('guarded', $guarded, true, true, false);
 
         return $this;
     }

@@ -1,5 +1,5 @@
 {
-    "name": "hnhdigital-os/laravel-model-attributes",
+    "name": "hnhdigital-os/laravel-model-schema",
     "description": "Changes how the Eloquent Model provides attributes.",
     "keywords": ["laravel","illuminate","attributes"],
     "license": "MIT",
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "HnhDigital\\ModelAttributes\\": "src/"
+            "HnhDigital\\ModelSchema\\": "src/"
         }
     },
     "scripts": {

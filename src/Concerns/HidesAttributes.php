@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\ModelAttributes\Concerns;
+namespace HnhDigital\ModelSchema\Concerns;
 
 trait HidesAttributes
 {
@@ -11,7 +11,7 @@ trait HidesAttributes
      */
     public function getHidden()
     {
-        return $this->getAttributesFromStructure('hidden');
+        return $this->getAttributesFromSchema('hidden');
     }
 
     /**
@@ -23,7 +23,7 @@ trait HidesAttributes
      */
     public function setHidden(array $hidden)
     {
-        $this->updateStructure('hidden', $hidden, true, true, false);
+        $this->updateSchema('hidden', $hidden, true, true, false);
 
         return $this;
     }
@@ -41,7 +41,7 @@ trait HidesAttributes
             $this->getHidden(), is_array($attributes) ? $attributes : func_get_args()
         );
 
-        $this->updateStructure('hidden', $hidden, true, true, false);
+        $this->updateSchema('hidden', $hidden, true, true, false);
 
         return $this;
     }
@@ -53,7 +53,7 @@ trait HidesAttributes
      */
     public function getVisible()
     {
-        return $this->getAttributesFromStructure('visible');
+        return $this->getAttributesFromSchema('visible');
     }
 
     /**
@@ -65,7 +65,7 @@ trait HidesAttributes
      */
     public function setVisible(array $visible)
     {
-        $this->updateStructure('visible', $visible, true, true, false);
+        $this->updateSchema('visible', $visible, true, true, false);
 
         return $this;
     }
@@ -83,7 +83,7 @@ trait HidesAttributes
             $this->getVisible(), is_array($attributes) ? $attributes : func_get_args()
         );
 
-        $this->updateStructure('visible', $visible, true, true, false);
+        $this->updateSchema('visible', $visible, true, true, false);
 
         return $this;
     }
@@ -99,7 +99,7 @@ trait HidesAttributes
     {
         $hidden = array_diff($this->getHidden(), (array) $attributes);
 
-        $this->updateStructure('hidden', $hidden, true, true, false);
+        $this->updateSchema('hidden', $hidden, true, true, false);
 
         if (!empty($this->getVisible())) {
             $this->addVisible($attributes);
@@ -119,8 +119,8 @@ trait HidesAttributes
     {
         $attributes = (array) $attributes;
 
-        $this->updateStructure('visible', array_diff($this->getVisible(), $attributes), true);
-        $this->updateStructure('hidden', array_unique(array_merge($this->getHidden(), $attributes)), true);
+        $this->updateSchema('visible', array_diff($this->getVisible(), $attributes), true);
+        $this->updateSchema('hidden', array_unique(array_merge($this->getHidden(), $attributes)), true);
 
         return $this;
     }

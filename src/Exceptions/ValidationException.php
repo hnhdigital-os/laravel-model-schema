@@ -11,6 +11,13 @@ class ValidationException extends \Exception
      */
     protected $validator;
 
+    private static $response = [
+        'is_error' => false,
+        'feedback' => '',
+        'fields'   => [],
+        'changes'  => [],
+    ];
+
     /**
      * Exception constructor.
      *
@@ -21,8 +28,9 @@ class ValidationException extends \Exception
      */
     public function __construct($message = null, $code = 0, Exception $previous = null, $validator = null)
     {
-        parent::__construct($message, $code, $previous);
         $this->validator = $validator;
+
+        parent::__construct($message, $code, $previous);
     }
 
     /**
@@ -33,5 +41,46 @@ class ValidationException extends \Exception
     public function getValidator()
     {
         return $this->validator;
+    }
+
+    public function setResponse($response)
+    {
+        self::$response = $response;
+    }
+
+    /**
+     * Get a response to return.
+     *
+     * @return string|array
+     */
+    public function getResponse($route, $parameters, $config = [])
+    {
+        // Copy standard response.
+        $response = self::$response;
+
+        // Fill the response.
+        array_set($response, 'is_error', true);
+        array_set($response, 'message', $this->getMessage());
+        array_set($response, 'fields', array_keys($this->validator->errors()->messages()));
+        array_set($response, 'feedback', $this->validator->errors()->all());
+
+        if (array_has($config, 'feedback.html')) {
+            array_set($response, 'feedback', '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>');
+        }
+
+        // JSON response required.
+        if (request()->ajax() || request()->wantsJson()) {
+            return $response;
+        }
+
+        // Redirect response, flash to session.
+        session()->flash('is_error', true);
+        session()->flash('message', array_get($response, 'message', ''));
+        session()->flash('feedback', array_get($response, 'feedback', ''));
+        session()->flash('fields', array_get($response, 'fields', []));
+
+        // Redirect to provided route.
+        return redirect()
+            ->route($route, $parameters);
     }
 }

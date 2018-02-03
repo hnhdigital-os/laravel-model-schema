@@ -11,7 +11,7 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Laravel Model Attributes">
+        <testsuite name="Laravel Model Schema">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>

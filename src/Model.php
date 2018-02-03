@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\ModelAttributes;
+namespace HnhDigital\ModelSchema;
 
 /*
  * This file is part of the Laravel Model Attributes package.
@@ -55,45 +55,45 @@ class Model extends EloquentModel
      *
      * @var array
      */
-    protected $structure = [];
+    protected $schema = [];
 
     /**
-     * Stores structure requests.
+     * Stores schema requests.
      *
      * @var array
      */
-    private $structure_cache = [];
+    private $schema_cache = [];
 
     /**
-     * Get structure for this model.
+     * Get schema for this model.
      *
      * @return array
      */
-    public function getStructure()
+    public function getSchema()
     {
-        return $this->structure;
+        return $this->schema;
     }
 
     /**
-     * Get attributes from the structure of this model.
+     * Get attributes from the schema of this model.
      *
      * @param null|string $entry
      *
      * @return array
      */
-    public function getAttributesFromStructure($entry = null, $with_value = false)
+    public function getAttributesFromSchema($entry = null, $with_value = false)
     {
         if (is_null($entry)) {
-            return array_keys($this->getStructure());
+            return array_keys($this->getSchema());
         }
 
-        if ($attributes = $this->getStructureCache($entry.'_'.(int) $with_value)) {
+        if ($attributes = $this->getSchemaCache($entry.'_'.(int) $with_value)) {
             return $attributes;
         }
 
         $attributes = [];
 
-        foreach ($this->getStructure() as $key => $config) {
+        foreach ($this->getSchema() as $key => $config) {
             if (array_has($config, $entry)) {
                 if ($with_value) {
                     $attributes[$key] = $config[$entry];
@@ -103,7 +103,7 @@ class Model extends EloquentModel
             }
         }
 
-        $this->setStructureCache($entry.'_'.(int) $with_value, $attributes);
+        $this->setSchemaCache($entry.'_'.(int) $with_value, $attributes);
 
         return $attributes;
     }
@@ -116,9 +116,9 @@ class Model extends EloquentModel
      *
      * @return void
      */
-    private function setStructureCache($key, $data)
+    private function setSchemaCache($key, $data)
     {
-        $this->structure_cache[$key] = $data;
+        $this->schema_cache[$key] = $data;
     }
 
     /**
@@ -128,10 +128,10 @@ class Model extends EloquentModel
      *
      * @return void
      */
-    private function getStructureCache($key)
+    private function getSchemaCache($key)
     {
-        if (isset($this->structure_cache[$key])) {
-            return $this->structure_cache[$key];
+        if (isset($this->schema_cache[$key])) {
+            return $this->schema_cache[$key];
         }
 
         return false;
@@ -144,13 +144,13 @@ class Model extends EloquentModel
      *
      * @return void
      */
-    private function breakStructureCache($key)
+    private function breakSchemaCache($key)
     {
-        unset($this->structure_cache[$key]);
+        unset($this->schema_cache[$key]);
     }
 
     /**
-     * Set an entry within the structure.
+     * Set an entry within the schema.
      *
      * @param string $entry
      * @param array  $keys
@@ -159,29 +159,29 @@ class Model extends EloquentModel
      *
      * @return array
      */
-    public function setStructure($entry, $keys, $value, $reset = false, $reset_value = null)
+    public function setSchema($entry, $keys, $value, $reset = false, $reset_value = null)
     {
-        // Reset existing values in the structure.
+        // Reset existing values in the schema.
         if ($reset) {
-            $current = $this->getStructure($entry);
+            $current = $this->getSchema($entry);
             foreach ($current as $key => $value) {
                 if (is_null($reset_value)) {
-                    unset($this->structure[$key][$entry]);
+                    unset($this->schema[$key][$entry]);
                     continue;
                 }
 
-                array_set($this->structure, $key.'.'.$entry, $reset_value);
+                array_set($this->schema, $key.'.'.$entry, $reset_value);
             }
         }
 
         // Update each of the keys.
         foreach ($keys as $key) {
-            array_set($this->structure, $key.'.'.$entry, $value);
+            array_set($this->schema, $key.'.'.$entry, $value);
         }
 
         // Break the cache.
-        $this->breakStructureCache($entry.'_0');
-        $this->breakStructureCache($entry.'_1');
+        $this->breakSchemaCache($entry.'_0');
+        $this->breakSchemaCache($entry.'_1');
 
         return $this;
     }
@@ -209,6 +209,8 @@ class Model extends EloquentModel
      */
     public static function boot()
     {
+        parent::boot();
+
         // Boot event for creating this model.
         // Set default values if specified.
         // Validate dirty attributes before commiting to save.
@@ -216,8 +218,7 @@ class Model extends EloquentModel
             $model->setDefaultValuesForAttributes();
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
-                $validation_messages = implode(' ', $validator->errors()->all());
-                $message = sprintf('Validation failed on creating %s. %s', $model->getTable(), $validation_messages);
+                $message = sprintf('Validation failed on creating %s.', $model->getTable());
 
                 throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
@@ -228,8 +229,7 @@ class Model extends EloquentModel
         self::updating(function ($model) {
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
-                $validation_messages = implode(' ', $validator->errors()->all());
-                $message = sprintf('Validation failed on saving %s (%s). %s', $model->getTable(), $model->getKey(), $validation_messages);
+                $message = sprintf('Validation failed on saving %s (%s).', $model->getTable(), $model->getKey());
 
                 throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
@@ -237,7 +237,5 @@ class Model extends EloquentModel
 
         self::retrieved(function ($model) {
         });
-
-        parent::boot();
     }
 }

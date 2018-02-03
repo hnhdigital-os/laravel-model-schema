@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\ModelAttributes\Concerns;
+namespace HnhDigital\ModelSchema\Concerns;
 
 use Illuminate\Support\Str;
 use Validator;
@@ -58,7 +58,7 @@ trait HasAttributes
      */
     public function getValidAttributes()
     {
-        return array_keys($this->structure);
+        return array_keys($this->schema);
     }
 
     /**
@@ -68,7 +68,7 @@ trait HasAttributes
      */
     public function isValidAttribute($key)
     {
-        return array_has($this->structure, $key);
+        return array_has($this->schema, $key);
     }
 
     /**
@@ -118,7 +118,7 @@ trait HasAttributes
         }
 
         // Defaults on attributes.
-        $defaults = $this->getAttributesFromStructure('default', true);
+        $defaults = $this->getAttributesFromSchema('default', true);
 
         // Remove attributes that have been given values.
         $defaults = array_except($defaults, array_keys($this->getDirty()));
@@ -145,10 +145,10 @@ trait HasAttributes
     public function getCasts()
     {
         if ($this->getIncrementing()) {
-            return array_merge([$this->getKeyName() => $this->getKeyType()], $this->getAttributesFromStructure('cast', true));
+            return array_merge([$this->getKeyName() => $this->getKeyType()], $this->getAttributesFromSchema('cast', true));
         }
 
-        return $this->getAttributesFromStructure('cast', true);
+        return $this->getAttributesFromSchema('cast', true);
     }
 
     /**
@@ -213,7 +213,7 @@ trait HasAttributes
      */
     protected function getAuths()
     {
-        return $this->getAttributesFromStructure('auth', true);
+        return $this->getAttributesFromSchema('auth', true);
     }
 
     /**
@@ -312,6 +312,18 @@ trait HasAttributes
         }
 
         return false;
+    }
+
+    /**
+     * Cast value as an bool.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    protected function asBool($value)
+    {
+        return (bool) (int) $value;
     }
 
     /**
@@ -454,10 +466,10 @@ trait HasAttributes
     public function getAttributeRules()
     {
         $result = [];
-        $attributes = $this->getAttributesFromStructure();
+        $attributes = $this->getAttributesFromSchema();
         $casts = $this->getCasts();
-        $casts_back = $this->getAttributesFromStructure('cast-back', true);
-        $rules = $this->getAttributesFromStructure('rules', true);
+        $casts_back = $this->getAttributesFromSchema('cast-back', true);
+        $rules = $this->getAttributesFromSchema('rules', true);
 
         // Build full rule for each attribute.
         foreach ($attributes as $key) {
