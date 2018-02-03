@@ -63,6 +63,7 @@ class ValidationException extends \Exception
         array_set($response, 'message', $this->getMessage());
         array_set($response, 'fields', array_keys($this->validator->errors()->messages()));
         array_set($response, 'feedback', $this->validator->errors()->all());
+        array_set($response, 'errors', $this->validator->errors());
 
         if (array_has($config, 'feedback.html')) {
             array_set($response, 'feedback', '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>');
