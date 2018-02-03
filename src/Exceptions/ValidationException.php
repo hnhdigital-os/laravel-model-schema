@@ -1,6 +1,6 @@
 <?php
 
-namespace HnhDigital\ModelAttributes\Exceptions;
+namespace HnhDigital\ModelSchema\Exceptions;
 
 class ValidationException extends \Exception
 {
