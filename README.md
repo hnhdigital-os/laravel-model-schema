@@ -93,6 +93,41 @@ Here's an example:
     ];
 ```
 
+Ensure the parent boot occurs after your triggers so that any attribute changes are done before this packages triggers the validation.
+
+```php
+    /**
+     * Boot triggers.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        self::updating(function ($model) {
+            // Doing something.
+        });
+
+        parent::boot();
+    }
+```
+
+Model's using this method will throw a ValidationException exception if they do not pass validation. Be sure to catch these.
+
+```php
+    try {
+        $user = User::create(request()->all());
+    } catch (HnhDigital\ModelAttributes\Exceptions\ValidationException $exception) {
+        // Do something about the validation.
+
+        // You can add things to the validator.
+        $exception->getValidator()->errors()->add('field', 'Something is wrong with this field!');
+
+        // We've implemented a response.
+        // This redirects the same as a validator with errors.
+        return $exception->getResponse('user::add');
+    }
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md) for details.

@@ -70,7 +70,8 @@ class ValidationException extends \Exception
 
         // JSON response required.
         if (request()->ajax() || request()->wantsJson()) {
-            return $response;
+            return response()
+                ->json($response, 422);
         }
 
         // Redirect response, flash to session.
@@ -81,6 +82,8 @@ class ValidationException extends \Exception
 
         // Redirect to provided route.
         return redirect()
-            ->route($route, $parameters);
+            ->route($route, $parameters)
+            ->withErrors($this->getValidator())
+            ->withInput();
     }
 }
