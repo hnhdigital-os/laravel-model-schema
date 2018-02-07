@@ -116,7 +116,7 @@ Model's using this method will throw a ValidationException exception if they do 
 ```php
     try {
         $user = User::create(request()->all());
-    } catch (HnhDigital\ModelAttributes\Exceptions\ValidationException $exception) {
+    } catch (HnhDigital\ModelSchema\Exceptions\ValidationException $exception) {
         // Do something about the validation.
 
         // You can add things to the validator.
