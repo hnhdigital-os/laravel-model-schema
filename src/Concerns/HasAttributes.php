@@ -474,10 +474,6 @@ trait HasAttributes
         // Build full rule for each attribute.
         foreach ($attributes as $key) {
             $result[$key] = [];
-
-            if ($this->exists) {
-                $result[$key][] = 'sometimes';
-            }
         }
 
         // If any casts back are configured, replace the value found in casts.
@@ -487,6 +483,10 @@ trait HasAttributes
         // Build full rule for each attribute.
         foreach ($casts as $key => $cast_type) {
             $result[$key][] = $this->parseAttributeType($cast_type);
+
+            if ($this->exists) {
+                $result[$key][] = 'sometimes';
+            }
         }
 
         // Assign specified rules.
