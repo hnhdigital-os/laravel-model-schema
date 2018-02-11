@@ -218,7 +218,13 @@ class Model extends EloquentModel
             $model->setDefaultValuesForAttributes();
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
-                $message = sprintf('Validation failed on creating %s.', $model->getTable());
+                $issues = $validator->errors()->all();
+
+                $message = sprintf(
+                    "Validation failed on creating %s.\n%s",
+                    $model->getTable(),
+                    implode("\n", $issues)
+                );
 
                 throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
@@ -229,7 +235,14 @@ class Model extends EloquentModel
         self::updating(function ($model) {
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
-                $message = sprintf('Validation failed on saving %s (%s).', $model->getTable(), $model->getKey());
+                $issues = $validator->errors()->all();
+
+                $message = sprintf(
+                    "Validation failed on saving %s (%s).\n%s",
+                    $model->getTable(),
+                    $model->getKey(),
+                    implode("\n", $issues)
+                );
 
                 throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
