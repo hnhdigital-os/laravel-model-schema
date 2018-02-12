@@ -9,6 +9,12 @@
             "email": "rocco@hnh.digital"
         }
     ],
+    "repositories": [
+        {
+            "url": "https://github.com/hnhdigital-os/laravel-null-carbon.git",
+            "type": "git"
+        }
+    ],
     "require": {
         "php": ">=7.1.0",
         "laravel/framework": ">=5.5",
