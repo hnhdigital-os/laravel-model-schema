@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.1.0",
         "laravel/framework": ">=5.5",
-        "genealabs/laravel-null-carbon": "^0.1.3"
+        "genealabs/laravel-null-carbon": "dev-master"
     },
     "require-dev": {
         "illuminate/database": "4.*|5.*"
