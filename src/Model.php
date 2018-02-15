@@ -67,6 +67,13 @@ class Model extends EloquentModel
     private $schema_cache = [];
 
     /**
+     * Cache.
+     *
+     * @var array
+     */
+    private $cache = [];
+
+    /**
      * Get schema for this model.
      *
      * @return array
@@ -202,6 +209,31 @@ class Model extends EloquentModel
         }
 
         return $this;
+    }
+
+    /**
+     * Cache this value.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return mixed
+     */
+    protected function cache($key, $value)
+    {
+        if (array_has($this->cache, $key)) {
+            return array_get($this->cache, $key);
+        }
+
+        if (is_callable($value)) {
+            $result = $value();
+        } else {
+            $result = $value;
+        }
+
+        array_set($this->cache, $key, $result);
+
+        return $result;
     }
 
     /**
