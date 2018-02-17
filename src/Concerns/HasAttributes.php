@@ -13,7 +13,7 @@ trait HasAttributes
      *
      * @var array
      */
-    protected $default_cast_as_definitions = [
+    protected static $default_cast_as_definitions = [
         'uuid'       => 'asString',
         'int'        => 'asInt',
         'integer'    => 'asInt',
@@ -37,7 +37,7 @@ trait HasAttributes
      *
      * @var array
      */
-    protected $default_cast_to_definitions = [
+    protected static $default_cast_to_definitions = [
         'bool'       => 'castAsBoolean',
         'boolean'    => 'castAsBoolean',
         'date'       => 'castAsDateTime',
@@ -202,8 +202,8 @@ trait HasAttributes
      */
     protected function getCastAsDefinition($type)
     {
-        if (array_has($this->default_cast_as_definitions, $type)) {
-            return array_get($this->default_cast_as_definitions, $type);
+        if (array_has(static::$default_cast_as_definitions, $type)) {
+            return array_get(static::$default_cast_as_definitions, $type);
         }
 
         return false;
@@ -310,8 +310,8 @@ trait HasAttributes
      */
     protected function getCastToDefinition($type)
     {
-        if (array_has($this->default_cast_to_definitions, $type)) {
-            return array_get($this->default_cast_to_definitions, $type);
+        if (array_has(static::$default_cast_to_definitions, $type)) {
+            return array_get(static::$default_cast_to_definitions, $type);
         }
 
         return false;
