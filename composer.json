@@ -21,7 +21,8 @@
         "genealabs/laravel-null-carbon": "dev-master"
     },
     "require-dev": {
-        "illuminate/database": "4.*|5.*"
+        "illuminate/database": "4.*|5.*",
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
