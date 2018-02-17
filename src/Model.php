@@ -53,7 +53,7 @@ class Model extends EloquentModel
     }
 
     /**
-     * Describes the schema for this model
+     * Describes the schema for this model.
      *
      * @var array
      */

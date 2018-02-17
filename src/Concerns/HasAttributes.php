@@ -380,13 +380,14 @@ trait HasAttributes
     /**
      * Return a timestamp as DateTime object.
      *
-     * @param  mixed  $value
+     * @param mixed $value
+     *
      * @return \Illuminate\Support\Carbon
      */
     protected function asDateTime($value)
     {
         if (is_null($value)) {
-            return new NullCarbon;
+            return new NullCarbon();
         }
 
         return $this->eloquentAsDateTime($value);
