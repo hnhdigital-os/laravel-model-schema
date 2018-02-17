@@ -53,34 +53,128 @@ class Model extends EloquentModel
     }
 
     /**
-     * Describes the model's attributes.
+     * Describes the schema for this model
      *
      * @var array
      */
-    protected $schema = [];
+    protected static $schema = [];
 
     /**
      * Stores schema requests.
      *
      * @var array
      */
-    private $schema_cache = [];
+    protected static $schema_cache = [];
+
+    /**
+     * Describes the schema for this instantiated model.
+     *
+     * @var array
+     */
+    protected $_schema = [];
+
+    /**
+     * Stores schema requests.
+     *
+     * @var array
+     */
+    private $_schema_cache = [];
 
     /**
      * Cache.
      *
      * @var array
      */
-    private $cache = [];
+    private $_cache = [];
 
     /**
-     * Get schema for this model.
+     * Get the schema for this model.
+     *
+     * @return array
+     */
+    public static function schema()
+    {
+        return static::$schema;
+    }
+
+    /**
+     * Get attributes from the schema of this model.
+     *
+     * @param null|string $entry
+     *
+     * @return array
+     */
+    public static function fromSchema($entry = null, $with_value = false)
+    {
+        if (is_null($entry)) {
+            return array_keys(static::schema());
+        }
+
+        if ($attributes = static::schemaCache($entry.'_'.(int) $with_value)) {
+            return $attributes;
+        }
+
+        $attributes = [];
+
+        foreach (static::schema() as $key => $config) {
+            if (array_has($config, $entry)) {
+                if ($with_value) {
+                    $attributes[$key] = $config[$entry];
+                } else {
+                    $attributes[] = $key;
+                }
+            }
+        }
+
+        static::schemaCache($entry.'_'.(int) $with_value, $attributes);
+
+        return $attributes;
+    }
+
+    /**
+     * Set or get Cache for this key.
+     *
+     * @param string $key
+     * @param array  $data
+     *
+     * @return void
+     */
+    private static function schemaCache(...$args)
+    {
+        if (count($args) == 1) {
+            $key = array_pop($args);
+            if (isset(static::$schema_cache[$key])) {
+                return static::$schema_cache[$key];
+            }
+
+            return false;
+        }
+
+        list($key, $value) = $args;
+
+        static::$schema_cache[$key] = $value;
+    }
+
+    /**
+     * Break cache for this key.
+     *
+     * @param string $key
+     *
+     * @return void
+     */
+    private static function unsetSchemaCache($key)
+    {
+        unset(static::$schema_cache[$key]);
+    }
+
+    /**
+     * Get schema for this instantiated model.
      *
      * @return array
      */
     public function getSchema()
     {
-        return $this->schema;
+        return $this->_schema + static::schema();
     }
 
     /**
@@ -127,7 +221,7 @@ class Model extends EloquentModel
      */
     private function setSchemaCache($key, $data)
     {
-        $this->schema_cache[$key] = $data;
+        $this->_schema_cache[$key] = $data;
     }
 
     /**
@@ -139,8 +233,8 @@ class Model extends EloquentModel
      */
     private function getSchemaCache($key)
     {
-        if (isset($this->schema_cache[$key])) {
-            return $this->schema_cache[$key];
+        if (isset($this->_schema_cache[$key])) {
+            return $this->_schema_cache[$key];
         }
 
         return false;
@@ -155,7 +249,7 @@ class Model extends EloquentModel
      */
     private function breakSchemaCache($key)
     {
-        unset($this->schema_cache[$key]);
+        unset($this->_schema_cache[$key]);
     }
 
     /**
@@ -221,8 +315,8 @@ class Model extends EloquentModel
      */
     protected function cache($key, $value)
     {
-        if (array_has($this->cache, $key)) {
-            return array_get($this->cache, $key);
+        if (array_has($this->_cache, $key)) {
+            return array_get($this->_cache, $key);
         }
 
         if (is_callable($value)) {
@@ -231,7 +325,7 @@ class Model extends EloquentModel
             $result = $value;
         }
 
-        array_set($this->cache, $key, $result);
+        array_set($this->_cache, $key, $result);
 
         return $result;
     }

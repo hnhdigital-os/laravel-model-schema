@@ -64,7 +64,7 @@ Here's an example:
      *
      * @var array
      */
-    protected $schema = [
+    protected static $schema = [
         'id' => [
             'cast'    => 'integer',
             'guarded' => true,

@@ -25,7 +25,8 @@
     },
     "autoload": {
         "psr-4": {
-            "HnhDigital\\ModelSchema\\": "src/"
+            "HnhDigital\\ModelSchema\\": "src/",
+            "HnhDigital\\ModelSchema\\Tests\\": "src/tests/"
         }
     },
     "scripts": {

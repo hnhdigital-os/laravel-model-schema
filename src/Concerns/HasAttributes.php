@@ -38,6 +38,8 @@ trait HasAttributes
      * @var array
      */
     protected $default_cast_to_definitions = [
+        'bool'       => 'castAsBoolean',
+        'boolean'    => 'castAsBoolean',
         'date'       => 'castAsDateTime',
         'object'     => 'castAttributeAsJson',
         'array'      => 'castAttributeAsJson',
@@ -59,7 +61,7 @@ trait HasAttributes
      */
     public function getValidAttributes()
     {
-        return array_keys($this->schema);
+        return array_keys($this->getSchema());
     }
 
     /**
@@ -69,7 +71,7 @@ trait HasAttributes
      */
     public function isValidAttribute($key)
     {
-        return array_has($this->schema, $key);
+        return array_has($this->getSchema(), $key);
     }
 
     /**
@@ -151,6 +153,7 @@ trait HasAttributes
 
         return $this->getAttributesFromSchema('cast', true);
     }
+
     /**
      * Cast an attribute to a native PHP type.
      *
@@ -323,7 +326,7 @@ trait HasAttributes
      */
     protected function asBool($value)
     {
-        return (bool) (int) $value;
+        return (int) $value;
     }
 
     /**
@@ -390,11 +393,21 @@ trait HasAttributes
     }
 
     /**
+     * Cast boolean.
+     *
+     * @return DateTime
+     */
+    protected function castAsBoolean($key, $value)
+    {
+        return $this->asBool($value);
+    }
+
+    /**
      * Cast date as a DateTime instance.
      *
      * @return DateTime
      */
-    protected function castAsDateTime($value)
+    protected function castAsDateTime($key, $value)
     {
         return $this->fromDateTime($value);
     }
