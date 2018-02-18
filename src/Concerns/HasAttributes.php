@@ -233,7 +233,7 @@ trait HasAttributes
      */
     public function getDates()
     {
-        return $this->cache(__FUNCTION__, function() {
+        return $this->cache(__FUNCTION__, function () {
             $casts = $this->getCasts();
 
             $dates = [];
@@ -425,7 +425,6 @@ trait HasAttributes
      */
     protected function asDateTime($value)
     {
-
         if (is_null($value)) {
             return new NullCarbon();
         }

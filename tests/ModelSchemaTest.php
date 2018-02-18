@@ -2,15 +2,13 @@
 
 namespace HnhDigital\ModelSchema\Tests;
 
-use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Testing\Fakes\EventFake;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 use PHPUnit\Framework\TestCase;
@@ -360,7 +358,6 @@ class ModelSchemaTest extends TestCase
         try {
             $model->save();
         } catch (\HnhDigital\ModelSchema\Exceptions\ValidationException $exception) {
-
         }
 
         $invalid_attributes = [
