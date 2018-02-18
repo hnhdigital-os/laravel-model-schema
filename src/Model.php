@@ -260,10 +260,10 @@ class Model extends EloquentModel
     /**
      * Set an entry within the schema.
      *
-     * @param string        $entry
-     * @param string|array  $keys
-     * @param bool          $reset
-     * @param mixed         $reset_value
+     * @param string       $entry
+     * @param string|array $keys
+     * @param bool         $reset
+     * @param mixed        $reset_value
      *
      * @return array
      */

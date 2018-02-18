@@ -74,8 +74,8 @@ class MockModel extends Model
 
     /**
      * Check role.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function authCheckRole()
     {
