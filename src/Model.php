@@ -174,7 +174,7 @@ class Model extends EloquentModel
      */
     public function getSchema()
     {
-        return $this->_schema + static::schema();
+        return array_replace_recursive(static::schema(), $this->_schema);
     }
 
     /**
@@ -255,10 +255,10 @@ class Model extends EloquentModel
     /**
      * Set an entry within the schema.
      *
-     * @param string $entry
-     * @param array  $keys
-     * @param bool   $reset
-     * @param mixed  $reset_value
+     * @param string        $entry
+     * @param string|array  $keys
+     * @param bool          $reset
+     * @param mixed         $reset_value
      *
      * @return array
      */
@@ -273,13 +273,28 @@ class Model extends EloquentModel
                     continue;
                 }
 
-                array_set($this->schema, $key.'.'.$entry, $reset_value);
+                // Reset only adds to the localized schema if different to our static schema.
+                if (array_get(static::$schema, $key.'.'.$entry) != $reset_value) {
+                    array_set($this->_schema, $key.'.'.$entry, $reset_value);
+                }
+
+                // Remove the localized schema entry if it is the same as the static schema.
+                if (array_get(static::$schema, $key.'.'.$entry) == array_get($this->_schema, $key.'.'.$entry)) {
+                    array_forget($this->_schema, $key.'.'.$entry);
+                }
             }
+        }
+
+        // Keys can be a single string attribute.
+        if (!is_array($keys)) {
+            $keys = [$keys];
         }
 
         // Update each of the keys.
         foreach ($keys as $key) {
-            array_set($this->schema, $key.'.'.$entry, $value);
+            if (array_get(static::$schema, $key.'.'.$entry) != $value) {
+                array_set($this->_schema, $key.'.'.$entry, $value);
+            }
         }
 
         // Break the cache.

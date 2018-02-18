@@ -35,25 +35,21 @@ class MockModel extends Model
         'is_alive' => [
             'cast'     => 'boolean',
             'default'  => true,
-            'fillable' => true,
         ],
         'created_at' => [
             'cast'    => 'datetime',
             'guarded' => true,
-            'log'     => false,
             'hidden'  => true,
         ],
         'updated_at' => [
             'cast'    => 'datetime',
             'guarded' => true,
-            'log'     => false,
             'hidden'  => true,
         ],
         'deleted_at' => [
-            'cast'   => 'datetime',
-            'hidden' => true,
-            'log'    => false,
-            'rules'  => 'nullable',
+            'cast'     => 'datetime',
+            'hidden'   => true,
+            'rules'    => 'nullable',
         ],
     ];
 }

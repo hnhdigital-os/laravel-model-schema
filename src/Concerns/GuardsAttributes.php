@@ -23,7 +23,7 @@ trait GuardsAttributes
      */
     public function fillable(array $fillable)
     {
-        $this->updateSchema('fillable', $fillable, true, true, false);
+        $this->setSchema('fillable', $fillable, true, true, false);
 
         return $this;
     }
@@ -51,7 +51,7 @@ trait GuardsAttributes
      */
     public function guard(array $guarded)
     {
-        $this->updateSchema('guarded', $guarded, true, true, false);
+        $this->setSchema('guarded', $guarded, true, true, false);
 
         return $this;
     }

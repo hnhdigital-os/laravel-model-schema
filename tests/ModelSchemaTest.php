@@ -78,6 +78,15 @@ class ModelSchemaTest extends TestCase
         $this->assertEquals($casts, $model->getCasts());
 
         /**
+         * Fillable.
+         */
+        $fillable = [
+            'name',
+        ];
+
+        $this->assertEquals($fillable, $model->getFillable());
+
+        /**
          * Rules.
          */
         $rules = [
@@ -120,7 +129,7 @@ class ModelSchemaTest extends TestCase
     }
 
     /**
-     * Asset a number of checks.
+     * Assert a number of checks using attributes that exist or not exist against this model.
      *
      * @return void
      */
@@ -135,7 +144,7 @@ class ModelSchemaTest extends TestCase
     }
 
     /**
-     * Asset a number of checks.
+     * Assert a number of checks using boolean values.
      *
      * @return void
      */
@@ -154,5 +163,37 @@ class ModelSchemaTest extends TestCase
 
         $model->is_alive = '1';
         $this->assertEquals(true, $model->getAttributes('is_alive'));
+    }
+
+    /**
+     * Assert changing the state of an attribute.
+     *
+     * @return void
+     */
+    public function testChangingFillableState()
+    {
+        $model = new MockModel();
+
+        /**
+         * Fillable.
+         */
+        $fillable = [
+            'name',
+        ];
+
+        $this->assertEquals($fillable, $model->getFillable());
+
+        $model->fillable(['is_alive']);
+
+        /**
+         * Fillable.
+         */
+        $fillable = [
+            'name',
+            'is_alive',
+        ];
+
+        $this->assertEquals($fillable, $model->getFillable());
+
     }
 }
