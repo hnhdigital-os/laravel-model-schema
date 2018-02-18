@@ -376,6 +376,9 @@ class ModelSchemaTest extends TestCase
         ];
 
         $this->assertEquals($invalid_attributes, $model->getInvalidAttributes());
+        $this->assertInstanceOf(\Illuminate\Validation\Validator::class, $exception->getValidator());
+
+        //$this->assertEquals('', $exception->getResponse('', []));
     }
 
     /**
