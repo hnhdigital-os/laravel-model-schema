@@ -322,6 +322,15 @@ class ModelSchemaTest extends TestCase
         ];
 
         $this->assertEquals($dirty, $model->getDirty());
+
+        $model = MockModel::create([
+            'name' => 'test',
+        ]);
+
+        $model->is_alive = false;
+
+        $this->assertEquals($model, $model->setDefaultValuesForAttributes());
+        $this->assertEquals(['is_alive' => false], $model->getDirty());
     }
 
     /**
