@@ -11,7 +11,7 @@ trait GuardsAttributes
      */
     public function getFillable()
     {
-        return $this->getAttributesFromSchema('fillable');
+        return $this->getAttributesFromSchema('fillable', false, true);
     }
 
     /**
@@ -35,9 +35,9 @@ trait GuardsAttributes
      */
     public function getGuarded()
     {
-        $guarded_create = !$this->exists ? $this->getAttributesFromSchema('guarded-create') : [];
-        $guarded_update = $this->exists ? $this->getAttributesFromSchema('guarded-update') : [];
-        $guarded = $this->getAttributesFromSchema('guarded');
+        $guarded_create = !$this->exists ? $this->getAttributesFromSchema('guarded-create', false, true) : [];
+        $guarded_update = $this->exists ? $this->getAttributesFromSchema('guarded-update', false, true) : [];
+        $guarded = $this->getAttributesFromSchema('guarded', false, true);
 
         return array_merge($guarded_create, $guarded_update, $guarded);
     }

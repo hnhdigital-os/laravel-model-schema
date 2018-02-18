@@ -166,7 +166,7 @@ class ModelSchemaTest extends TestCase
     }
 
     /**
-     * Assert changing the state of an attribute.
+     * Assert changing the fillable state of an attribute.
      *
      * @return void
      */
@@ -175,7 +175,7 @@ class ModelSchemaTest extends TestCase
         $model = new MockModel();
 
         /**
-         * Fillable.
+         * Pre-change Fillable.
          */
         $fillable = [
             'name',
@@ -186,14 +186,45 @@ class ModelSchemaTest extends TestCase
         $model->fillable(['is_alive']);
 
         /**
-         * Fillable.
+         * Post change Fillable.
          */
         $fillable = [
-            'name',
             'is_alive',
         ];
 
         $this->assertEquals($fillable, $model->getFillable());
+    }
 
+    /**
+     * Assert changing the guarded state of an attribute.
+     *
+     * @return void
+     */
+    public function testChangingGuardedState()
+    {
+        $model = new MockModel();
+
+        /**
+         * Pre-change guarded.
+         */
+        $guarded = [
+            'id',
+            'uuid',
+            'created_at',
+            'updated_at',
+        ];
+
+        $this->assertEquals($guarded, $model->getGuarded());
+
+        $model->guard(['id']);
+
+        /**
+         * Post change guarded.
+         */
+        $guarded = [
+            'id',
+        ];
+
+        $this->assertEquals($guarded, $model->getGuarded());
     }
 }

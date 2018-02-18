@@ -184,7 +184,7 @@ class Model extends EloquentModel
      *
      * @return array
      */
-    public function getAttributesFromSchema($entry = null, $with_value = false)
+    public function getAttributesFromSchema($entry = null, $with_value = false, $is_value = null)
     {
         if (is_null($entry)) {
             return array_keys($this->getSchema());
@@ -197,6 +197,10 @@ class Model extends EloquentModel
         $attributes = [];
 
         foreach ($this->getSchema() as $key => $config) {
+            if (!is_null($is_value) && $is_value != array_get($config, $entry)) {
+                continue;
+            }
+
             if (array_has($config, $entry)) {
                 if ($with_value) {
                     $attributes[$key] = $config[$entry];
@@ -273,15 +277,7 @@ class Model extends EloquentModel
                     continue;
                 }
 
-                // Reset only adds to the localized schema if different to our static schema.
-                if (array_get(static::$schema, $key.'.'.$entry) != $reset_value) {
-                    array_set($this->_schema, $key.'.'.$entry, $reset_value);
-                }
-
-                // Remove the localized schema entry if it is the same as the static schema.
-                if (array_get(static::$schema, $key.'.'.$entry) == array_get($this->_schema, $key.'.'.$entry)) {
-                    array_forget($this->_schema, $key.'.'.$entry);
-                }
+                array_set($this->_schema, $key.'.'.$entry, $reset_value);
             }
         }
 
@@ -292,9 +288,7 @@ class Model extends EloquentModel
 
         // Update each of the keys.
         foreach ($keys as $key) {
-            if (array_get(static::$schema, $key.'.'.$entry) != $value) {
-                array_set($this->_schema, $key.'.'.$entry, $value);
-            }
+            array_set($this->_schema, $key.'.'.$entry, $value);
         }
 
         // Break the cache.
