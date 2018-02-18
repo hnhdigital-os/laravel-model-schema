@@ -1,24 +1,47 @@
-Contributing
-============
+# How to contribute
 
-First off - **you rock!**, thanks you so much for taking to time and energy to make this project better!
+We welcome everyone to submit pull requests with:
 
-A healthy community is filled with different coders with differnt coding styles. This can cause cognative friction. 
-Here are a few rules to follow in order to minimize that friction and ease code reviews and discussions before 
-maintainers accept and merge your work.
+* fixes for issues
+* change suggestions
+* updating of documentation
 
-You MUST follow the [PSR-1](http://www.php-fig.org/psr/1/) and [PSR-2](http://www.php-fig.org/psr/2/). Use
-[PHP-CS-Fixer](http://cs.sensiolabs.org/) to make this task easier if you are unfamiliar with these stantards.
-Additionally you:
-# MUST run the test suite.
-# MUST write (or update) unit tests.
-# SHOULD write documentation.
+Please NOTE:
 
-Please, write [commit messages that make sense](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html),
-and [rebase your branch](http://git-scm.com/book/en/Git-Branching-Rebasing) before submitting your Pull Request.
+Not every pull request will automatically be accepted. I will review each carefully to make sure it is in line with the direction I want the package to continue in. This might mean that some pull requests are not accepted, or might stay unmerged until a place for them can be determined.
 
-You may be asked to [squash your commits](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html)
-too. This is used to "clean" your Pull Request before merging it (we don't want commits such as `fix tests`, `fix 2`,
-`fix 3`, etc).
+## Coding standards
 
-Let's do this!
+You MUST use the following coding standards:
+
+* [PSR-1](http://www.php-fig.org/psr/1/)
+* [PSR-2](http://www.php-fig.org/psr/2/)
+* [PSR-4](http://www.php-fig.org/psr/4/)
+
+We use StyleCI to ensure these coding standards are consistently achieved.
+
+## Documentation
+
+You SHOULD update any relevant documentation.
+
+## Making changes
+
+You MUST do the following:
+
+* Write commit messages that make sense and in past tense.
+* Write (or update) and run unit tests.
+* Check that your code must pass PHPCS and PHPMD PSR2 validation.
+
+We use Travis and Code Climate to help us achieve successful unit testing, code quality and coverage.
+
+## Pull requests
+
+You SHOULD do the following when preparing your request:
+
+* Rebase your branch before submitting pull request
+* Add a descriptive header that explains in a single sentence what problem the PR solves.
+* Add a detailed description with animated screen-grab GIFs visualizing how it works.
+* Explain why you think it should be implemented one way vs. another, highlight performance improvements, etc.
+
+Thanks!
+Rocco Howard, H&H|Digital

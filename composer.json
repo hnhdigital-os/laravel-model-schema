@@ -22,7 +22,8 @@
     },
     "require-dev": {
         "illuminate/database": "4.*|5.*",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "symfony/thanks" : "*"
     },
     "autoload": {
         "psr-4": {

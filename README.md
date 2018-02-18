@@ -17,19 +17,19 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 
 ## Documentation
 
-* [Requirements](#requirements)
-* [Installation](#install)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
 * [Configuration](#configuration)
 * [Contributing](#contributing)
 * [Credits](#credits)
 * [License](#license)
 
-## Requirements
+## Prerequisites
 
-* Laravel 5.5
-* PHP 7.1
+* PHP >= 7.1
+* Laravel >= 5.5
 
-## Install
+## Installation
 
 Via composer:
 
@@ -131,6 +131,23 @@ Model's using this method will throw a ValidationException exception if they do 
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md) for details.
+
+## Contributing
+
+Please observe and respect all aspects of the included [Code of Conduct](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CODE_OF_CONDUCT.md).
+
+### Reporting Issues
+
+When reporting issues, please fill out the included [template](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/ISSUE_TEMPLATE.md) as completely as possible. Incomplete issues may be ignored or closed if there is not enough information included to be actionable.
+
+### Submitting Pull Requests
+
+Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md). Only PRs that meet all criterium will be accepted.
+
+## Give your open software some ❤ by giving it a ⭐
+
+We have included the awesome `symfony/thanks` composer package as a dev dependency. Simply run `composer thanks` after installing this
+package.
 
 ## Credits
 
