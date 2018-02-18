@@ -229,7 +229,7 @@ trait HasAttributes
     public function getAuthMethod($key)
     {
         if (array_has($this->getAuths(), $key)) {
-            $method = array_get($this->getAuths(), $key);
+            $method = 'auth'.studly_case(array_get($this->getAuths(), $key));
 
             return method_exists($this, $method) ? $method : false;
         }
@@ -583,20 +583,6 @@ trait HasAttributes
         }
 
         return $this->getValidator()->errors()->messages();
-    }
-
-    /**
-     * Get invalid attributes.
-     *
-     * @return array
-     */
-    public function getInvalidMessage()
-    {
-        if (is_null($this->getValidator())) {
-            return [];
-        }
-
-        return $this->getValidator()->errors()->all();
     }
 
     /**

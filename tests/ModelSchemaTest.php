@@ -65,6 +65,7 @@ class ModelSchemaTest extends TestCase
             $table->char('uuid', 36)->nullable();
             $table->string('name');
             $table->boolean('is_alive')->default(true);
+            $table->boolean('enable_notifications')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
@@ -97,14 +98,15 @@ class ModelSchemaTest extends TestCase
          * Casts.
          */
         $casts = [
-            'id'          => 'integer',
-            'uuid'        => 'uuid',
-            'name'        => 'string',
-            'is_alive'    => 'boolean',
-            'is_admin'    => 'boolean',
-            'created_at'  => 'datetime',
-            'updated_at'  => 'datetime',
-            'deleted_at'  => 'datetime',
+            'id'                   => 'integer',
+            'uuid'                 => 'uuid',
+            'name'                 => 'string',
+            'is_alive'             => 'boolean',
+            'is_admin'             => 'boolean',
+            'enable_notifications' => 'boolean',
+            'created_at'           => 'datetime',
+            'updated_at'           => 'datetime',
+            'deleted_at'           => 'datetime',
         ];
 
         $this->assertEquals($casts, MockModel::fromSchema('cast', true));
@@ -123,13 +125,14 @@ class ModelSchemaTest extends TestCase
          * Rules.
          */
         $rules = [
-            'uuid'        => 'string|nullable',
-            'name'        => 'string|min:2|max:255',
-            'is_alive'    => 'boolean',
-            'is_admin'    => 'boolean',
-            'created_at'  => 'date',
-            'updated_at'  => 'date',
-            'deleted_at'  => 'date|nullable',
+            'uuid'                 => 'string|nullable',
+            'name'                 => 'string|min:2|max:255',
+            'is_alive'             => 'boolean',
+            'is_admin'             => 'boolean',
+            'enable_notifications' => 'boolean',
+            'created_at'           => 'date',
+            'updated_at'           => 'date',
+            'deleted_at'           => 'date|nullable',
         ];
 
         $this->assertEquals($rules, $model->getAttributeRules());
@@ -142,6 +145,7 @@ class ModelSchemaTest extends TestCase
             'uuid',
             'name',
             'is_alive',
+            'enable_notifications',
             'is_admin',
             'created_at',
             'updated_at',
@@ -280,6 +284,8 @@ class ModelSchemaTest extends TestCase
         MockModel::reguard();
 
         $this->assertFalse($model->hasWriteAccess('is_admin'));
+
+        $this->assertFalse($model->hasWriteAccess('enable_notifications'));
     }
 
     /**
@@ -296,8 +302,9 @@ class ModelSchemaTest extends TestCase
         $model->setDefaultValuesForAttributes();
 
         $dirty = [
-            'is_alive' => true,
-            'is_admin' => false,
+            'is_alive'             => true,
+            'is_admin'             => false,
+            'enable_notifications' => false,
         ];
 
         $this->assertEquals($dirty, $model->getDirty());
@@ -317,6 +324,34 @@ class ModelSchemaTest extends TestCase
         ]);
 
         $this->assertTrue($model->exists());
+    }
+
+    /**
+     * Assert creating a model fails when validation fails.
+     *
+     * @return void
+     */
+    public function testCreateModelCatchValidationException()
+    {
+        $model = MockModel::create([
+            'name' => 'test',
+        ]);
+
+        $model->name = 't';
+
+        try {
+            $model->save();
+        } catch (\HnhDigital\ModelSchema\Exceptions\ValidationException $exception) {
+
+        }
+
+        $invalid_attributes = [
+            'name' => [
+                'validation.min.string',
+            ],
+        ];
+
+        $this->assertEquals($invalid_attributes, $model->getInvalidAttributes());
     }
 
     /**
