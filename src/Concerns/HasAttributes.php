@@ -4,7 +4,7 @@ namespace HnhDigital\ModelSchema\Concerns;
 
 use GeneaLabs\LaravelNullCarbon\NullCarbon;
 use Illuminate\Support\Str;
-use Validator;
+use Illuminate\Validation\Validator;
 
 trait HasAttributes
 {
@@ -430,8 +430,10 @@ trait HasAttributes
      */
     public function savingValidation()
     {
+        global $app;
+
         $this->preValidationCast();
-        $this->validator = Validator::make($this->getDirty(), $this->getAttributeRules());
+        $this->validator = new Validator($app['translator'], $this->getDirty(), $this->getAttributeRules());
 
         if ($this->validator->fails()) {
             return false;
@@ -542,6 +544,8 @@ trait HasAttributes
     private function parseAttributeType($type)
     {
         switch ($type) {
+            case 'uuid':
+                return 'string';
             case 'bool':
                 return 'boolean';
             case 'int':

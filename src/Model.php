@@ -344,14 +344,14 @@ class Model extends EloquentModel
      *
      * @return void
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
         // Boot event for creating this model.
         // Set default values if specified.
         // Validate dirty attributes before commiting to save.
-        self::creating(function ($model) {
+        static::creating(function ($model) {
             $model->setDefaultValuesForAttributes();
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
@@ -369,7 +369,7 @@ class Model extends EloquentModel
 
         // Boot event for updating this model.
         // Validate dirty attributes before commiting to save.
-        self::updating(function ($model) {
+        static::updating(function ($model) {
             if (!$model->savingValidation()) {
                 $validator = $model->getValidator();
                 $issues = $validator->errors()->all();
@@ -385,7 +385,7 @@ class Model extends EloquentModel
             }
         });
 
-        self::retrieved(function ($model) {
+        static::retrieved(function ($model) {
         });
     }
 }

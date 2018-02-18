@@ -2,7 +2,17 @@
 
 namespace HnhDigital\ModelSchema\Tests;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Testing\Fakes\EventFake;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
 use PHPUnit\Framework\TestCase;
 
 class ModelSchemaTest extends TestCase
@@ -14,6 +24,16 @@ class ModelSchemaTest extends TestCase
      */
     public function setUp()
     {
+        global $app;
+
+        $dispatcher = new Dispatcher();
+        Event::swap($dispatcher);
+        Model::setEventDispatcher($dispatcher);
+        Model::clearBootedModels();
+
+        $app['translation.loader'] = new FileLoader(new Filesystem(''), 'en');
+        $app['translator'] = new Translator($app['translation.loader'], 'en');
+
         $this->configureDatabase();
     }
 
@@ -38,6 +58,18 @@ class ModelSchemaTest extends TestCase
         $db->setAsGlobal();
 
         $this->pdo = DB::connection()->getPdo();
+
+        $db->schema()->create('mock_model', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->integer('id')->primary()->autoincrement();
+            $table->char('uuid', 36)->nullable();
+            $table->string('name');
+            $table->boolean('is_alive')->default(true);
+            $table->boolean('is_admin')->default(false);
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
+        });
     }
 
     /**
@@ -91,8 +123,8 @@ class ModelSchemaTest extends TestCase
          * Rules.
          */
         $rules = [
-            'uuid'        => 'uuid',
-            'name'        => 'string|max:255',
+            'uuid'        => 'string|nullable',
+            'name'        => 'string|min:2|max:255',
             'is_alive'    => 'boolean',
             'is_admin'    => 'boolean',
             'created_at'  => 'date',
@@ -269,5 +301,35 @@ class ModelSchemaTest extends TestCase
         ];
 
         $this->assertEquals($dirty, $model->getDirty());
+    }
+
+    /**
+     * Assert creating a model fails when validation fails.
+     *
+     * @return void
+     *
+     * @expectedException HnhDigital\ModelSchema\Exceptions\ValidationException
+     */
+    public function testCreateModelValidationException()
+    {
+        $model = MockModel::create([
+            'name' => 't',
+        ]);
+
+        $this->assertTrue($model->exists());
+    }
+
+    /**
+     * Assert write access of an attribute.
+     *
+     * @return void
+     */
+    public function testCreateModel()
+    {
+        $model = MockModel::create([
+            'name' => 'test',
+        ]);
+
+        $this->assertTrue($model->exists());
     }
 }

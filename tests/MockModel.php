@@ -26,10 +26,11 @@ class MockModel extends Model
         'uuid' => [
             'cast'    => 'uuid',
             'guarded' => true,
+            'rules'   => 'nullable',
         ],
         'name' => [
             'cast'     => 'string',
-            'rules'    => 'max:255',
+            'rules'    => 'min:2|max:255',
             'fillable' => true,
         ],
         'is_alive' => [
