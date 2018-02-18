@@ -36,6 +36,10 @@ class MockModel extends Model
             'cast'     => 'boolean',
             'default'  => true,
         ],
+        'is_admin' => [
+            'cast'     => 'boolean',
+            'default'  => false,
+        ],
         'created_at' => [
             'cast'    => 'datetime',
             'guarded' => true,
@@ -52,4 +56,14 @@ class MockModel extends Model
             'rules'    => 'nullable',
         ],
     ];
+
+    /**
+     * Protect the Is Admin attribute.
+     *
+     * There would be logic in here to determine the user or role.
+     */
+    public function authIsAdminAttribute()
+    {
+        return false;
+    }
 }

@@ -69,6 +69,7 @@ class ModelSchemaTest extends TestCase
             'uuid'        => 'uuid',
             'name'        => 'string',
             'is_alive'    => 'boolean',
+            'is_admin'    => 'boolean',
             'created_at'  => 'datetime',
             'updated_at'  => 'datetime',
             'deleted_at'  => 'datetime',
@@ -93,6 +94,7 @@ class ModelSchemaTest extends TestCase
             'uuid'        => 'uuid',
             'name'        => 'string|max:255',
             'is_alive'    => 'boolean',
+            'is_admin'    => 'boolean',
             'created_at'  => 'date',
             'updated_at'  => 'date',
             'deleted_at'  => 'date|nullable',
@@ -108,6 +110,7 @@ class ModelSchemaTest extends TestCase
             'uuid',
             'name',
             'is_alive',
+            'is_admin',
             'created_at',
             'updated_at',
             'deleted_at',
@@ -226,5 +229,24 @@ class ModelSchemaTest extends TestCase
         ];
 
         $this->assertEquals($guarded, $model->getGuarded());
+    }
+
+    /**
+     * Assert write access of an attribute.
+     *
+     * @return void
+     */
+    public function testWriteAccess()
+    {
+        $model = new MockModel();
+
+        $this->assertFalse($model->hasWriteAccess('id'));
+        $this->assertTrue($model->hasWriteAccess('name'));
+
+        MockModel::unguard();
+        $this->assertTrue($model->hasWriteAccess('id'));
+        MockModel::reguard();
+
+        $this->assertFalse($model->hasWriteAccess('is_admin'));
     }
 }
