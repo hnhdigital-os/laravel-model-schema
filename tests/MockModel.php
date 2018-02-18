@@ -47,13 +47,12 @@ class MockModel extends Model
             'default'  => false,
         ],
         'created_at' => [
-            'cast'    => 'datetime',
-            'guarded' => true,
-            'hidden'  => true,
+            'cast'           => 'datetime',
+            'guarded-update' => true,
+            'hidden'         => true,
         ],
         'updated_at' => [
             'cast'    => 'datetime',
-            'guarded' => true,
             'hidden'  => true,
         ],
         'deleted_at' => [

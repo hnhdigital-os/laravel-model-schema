@@ -160,11 +160,18 @@ class ModelSchemaTest extends TestCase
         $guarded = [
             'id',
             'uuid',
-            'created_at',
-            'updated_at',
         ];
 
         $this->assertEquals($guarded, MockModel::fromSchema('guarded'));
+
+        /**
+         * Guarded attributes.
+         */
+        $guarded = [
+            'created_at',
+        ];
+
+        $this->assertEquals($guarded, MockModel::fromSchema('guarded-update'));
     }
 
     /**
@@ -249,8 +256,6 @@ class ModelSchemaTest extends TestCase
         $guarded = [
             'id',
             'uuid',
-            'created_at',
-            'updated_at',
         ];
 
         $this->assertEquals($guarded, $model->getGuarded());
@@ -337,6 +342,8 @@ class ModelSchemaTest extends TestCase
             'name' => 'test',
         ]);
 
+        $this->assertEquals([], $model->getInvalidAttributes());
+
         $model->name = 't';
 
         try {
@@ -366,5 +373,13 @@ class ModelSchemaTest extends TestCase
         ]);
 
         $this->assertTrue($model->exists());
+
+        $this->assertInstanceOf(\Carbon\Carbon::class, $model->created_at);
+        $this->assertInstanceOf(\GeneaLabs\LaravelNullCarbon\NullCarbon::class, $model->deleted_at);
+
+        $model = $model->fresh();
+
+        $this->assertInstanceOf(\Carbon\Carbon::class, $model->created_at);
+        $this->assertInstanceOf(\GeneaLabs\LaravelNullCarbon\NullCarbon::class, $model->deleted_at);
     }
 }

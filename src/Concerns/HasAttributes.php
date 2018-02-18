@@ -55,6 +55,23 @@ trait HasAttributes
     private $validator;
 
     /**
+     * Set's mising attributes.
+     *
+     * This covers situations where values have defaults but are not fillable, or
+     * date field.
+     *
+     * @return void
+     */
+    public function addMissingAttributes()
+    {
+        foreach ($this->getSchema() as $key => $settings) {
+            if (!array_has($this->attributes, $key)) {
+                array_set($this->attributes, $key, array_get($settings, 'default', null));
+            }
+        }
+    }
+
+    /**
      * Return a list of the attributes on this model.
      *
      * @return array
@@ -168,7 +185,7 @@ trait HasAttributes
             return $value;
         }
 
-        if ($method !== 'datetime' && is_null($value)) {
+        if ($method !== 'asDateTime' && is_null($value)) {
             return $value;
         }
 
@@ -386,6 +403,7 @@ trait HasAttributes
      */
     protected function asDateTime($value)
     {
+
         if (is_null($value)) {
             return new NullCarbon();
         }

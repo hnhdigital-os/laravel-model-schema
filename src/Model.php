@@ -367,6 +367,12 @@ class Model extends EloquentModel
             }
         });
 
+        // Boot event once model has been created.
+        // Add missing attributes using the schema.
+        static::created(function ($model) {
+            $model->addMissingAttributes();
+        });
+
         // Boot event for updating this model.
         // Validate dirty attributes before commiting to save.
         static::updating(function ($model) {
@@ -383,9 +389,6 @@ class Model extends EloquentModel
 
                 throw new Exceptions\ValidationException($message, 0, null, $validator);
             }
-        });
-
-        static::retrieved(function ($model) {
         });
     }
 }
