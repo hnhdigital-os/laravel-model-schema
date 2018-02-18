@@ -102,7 +102,7 @@ trait HasAttributes
         if ($this->hasAuthAttributeMutator($key)) {
             $method = 'auth'.Str::studly($key).'Attribute';
 
-            return $this->{$method}($value);
+            return $this->{$method}($key);
         }
 
         return true;
