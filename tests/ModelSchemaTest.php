@@ -165,13 +165,24 @@ class ModelSchemaTest extends TestCase
         $this->assertEquals($guarded, MockModel::fromSchema('guarded'));
 
         /**
-         * Guarded attributes.
+         * Guarded from updates attributes.
          */
         $guarded = [
             'created_at',
         ];
 
         $this->assertEquals($guarded, MockModel::fromSchema('guarded-update'));
+
+        /**
+         * Date attributes.
+         */
+        $dates = [
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ];
+
+        $this->assertEquals($dates, $model->getDates());
     }
 
     /**

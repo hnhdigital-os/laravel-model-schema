@@ -48,6 +48,7 @@ class Model extends EloquentModel
         Concerns\HasAttributes::asDateTime insteadof EloquentHasAttributes;
         Concerns\HasAttributes::getDirty insteadof EloquentHasAttributes;
         Concerns\HasAttributes::getCasts insteadof EloquentHasAttributes;
+        Concerns\HasAttributes::getDates insteadof EloquentHasAttributes;
         Concerns\HasAttributes::castAttribute insteadof EloquentHasAttributes;
         Concerns\HasAttributes::setAttribute insteadof EloquentHasAttributes;
     }

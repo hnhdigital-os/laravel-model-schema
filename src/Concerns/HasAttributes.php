@@ -227,6 +227,28 @@ trait HasAttributes
     }
 
     /**
+     * Get the attributes that should be converted to dates.
+     *
+     * @return array
+     */
+    public function getDates()
+    {
+        return $this->cache(__FUNCTION__, function() {
+            $casts = $this->getCasts();
+
+            $dates = [];
+
+            foreach ($casts as $key => $cast) {
+                if ($cast == 'datetime') {
+                    $dates[] = $key;
+                }
+            }
+
+            return $dates;
+        });
+    }
+
+    /**
      * Get the auths array.
      *
      * @return array
