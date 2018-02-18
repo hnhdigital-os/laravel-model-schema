@@ -73,6 +73,20 @@ class MockModel extends Model
     }
 
     /**
+     * Set attribute.
+     *
+     * @param bool $value
+     *
+     * @return void
+     */
+    public function setIsAliveAttribute($value)
+    {
+        $this->attributes['is_alive'] = $this->asBool($value);
+
+        return $this;
+    }
+
+    /**
      * Check role.
      *
      * @return bool
