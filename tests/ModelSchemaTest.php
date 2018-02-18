@@ -249,4 +249,25 @@ class ModelSchemaTest extends TestCase
 
         $this->assertFalse($model->hasWriteAccess('is_admin'));
     }
+
+    /**
+     * Assert write access of an attribute.
+     *
+     * @return void
+     */
+    public function testDefaultValues()
+    {
+        $model = new MockModel();
+
+        $this->assertEquals([], $model->getDirty());
+
+        $model->setDefaultValuesForAttributes();
+
+        $dirty = [
+            'is_alive' => true,
+            'is_admin' => false,
+        ];
+
+        $this->assertEquals($dirty, $model->getDirty());
+    }
 }
