@@ -365,7 +365,7 @@ trait HasAttributes
      */
     protected function asBool($value)
     {
-        return (int) $value;
+        return (bool) (int) $value;
     }
 
     /**
