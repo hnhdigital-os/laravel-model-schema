@@ -22,8 +22,8 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 * [Configuration](#configuration)
 * [Custom casts](#custom-casts)
 * [Contributing](#contributing)
-** [Reporting issues](#reporting-issues)
-** [Pull requests](#pull-requests)
+  * [Reporting issues](#reporting-issues)
+  * [Pull requests](#pull-requests)
 * [Credits](#credits)
 * [License](#license)
 
