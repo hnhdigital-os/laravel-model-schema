@@ -9,6 +9,15 @@ use Illuminate\Validation\Validator;
 trait HasAttributes
 {
     /**
+     * Model custom cast as definitions.
+     *
+     * @var array
+     */
+    protected static $cast_as_definitions = [
+
+    ];
+
+    /**
      * Default cast as definitions.
      *
      * @var array
@@ -30,6 +39,15 @@ trait HasAttributes
         'date'       => 'asDate',
         'datetime'   => 'asDateTime',
         'timestamp'  => 'asTimestamp',
+    ];
+
+    /**
+     * Model custom cast to definitions.
+     *
+     * @var array
+     */
+    protected static $cast_to_definitions = [
+
     ];
 
     /**
@@ -172,6 +190,20 @@ trait HasAttributes
     }
 
     /**
+     * Get the casts params array.
+     *
+     * @return array
+     */
+    public function getCastParams()
+    {
+        if ($this->getIncrementing()) {
+            return array_merge([$this->getKeyName() => $this->getKeyType()], $this->getAttributesFromSchema('cast', true));
+        }
+
+        return $this->getAttributesFromSchema('cast-params', true);
+    }
+
+    /**
      * Cast an attribute to a native PHP type.
      *
      * @param string $key
@@ -191,7 +223,8 @@ trait HasAttributes
 
         // Casting method is local.
         if (is_string($method) && method_exists($this, $method)) {
-            return $this->$method($value);
+            $paramaters = $this->getCastAsParamaters($key);
+            return $this->$method($value, ...$paramaters);
         }
 
         return $value;
@@ -219,11 +252,68 @@ trait HasAttributes
      */
     protected function getCastAsDefinition($type)
     {
+        // Custom definitions.
+        if (array_has(static::$cast_as_definitions, $type)) {
+            return array_get(static::$cast_as_definitions, $type);
+        }
+
+        // Fallback to default.
         if (array_has(static::$default_cast_as_definitions, $type)) {
             return array_get(static::$default_cast_as_definitions, $type);
         }
 
         return false;
+    }
+
+    /**
+     * Get the method to cast this attribte tyepca.
+     *
+     * @param string $type
+     *
+     * @return string|array|bool
+     */
+    protected function getCastAsParamaters($key)
+    {
+        $cast_params = $this->getCastParams();
+
+        $paramaters = explode(':', array_get($cast_params, $key, ''));
+        $parsed = $this->parseCastParamaters($paramaters);
+
+        return $parsed;
+    }
+
+    /**
+     * Parse the given cast parameters.
+     *
+     * @param array $paramaters
+     *
+     * @return array
+     */
+    private function parseCastParamaters($paramaters)
+    {
+        foreach ($paramaters as &$value) {
+            // Local callable method. ($someMethod())
+            if (substr($value, 0, 1) === '$' && stripos($value, '()') !== false) {
+                $method = substr($value, 1, -2);
+                $value = is_callable([$this, $method]) ? $this->{$method}() : null;
+            }
+
+            // Local attribute. ($some_attribute)
+            elseif (substr($value, 0, 1) === '$') {
+                $key = substr($value, 1);
+                $value = $this->{$key};
+            }
+
+            // Callable function (eg helper). (some_function())
+            elseif (stripos($value, '()') !== false) {
+                $method = substr($value, 0, -2);
+                $value = is_callable($method) ? $method() : null;
+            }
+
+            // String value.
+        }
+
+        return $paramaters;
     }
 
     /**
@@ -349,6 +439,12 @@ trait HasAttributes
      */
     protected function getCastToDefinition($type)
     {
+        // Custom definitions.
+        if (array_has(static::$default_cast_as_definitions, $type)) {
+            return array_get(static::$default_cast_as_definitions, $type);
+        }
+
+        // Fallback to default.
         if (array_has(static::$default_cast_to_definitions, $type)) {
             return array_get(static::$default_cast_to_definitions, $type);
         }
@@ -435,7 +531,7 @@ trait HasAttributes
     /**
      * Cast boolean.
      *
-     * @return DateTime
+     * @return bool
      */
     protected function castAsBoolean($key, $value)
     {
@@ -637,5 +733,31 @@ trait HasAttributes
         if ($this->isValidAttribute($key) && $this->hasWriteAccess($key)) {
             $this->setAttribute($key, $value);
         }
+    }
+
+    /**
+     * Register cast as definition.
+     *
+     * @param  string $cast
+     * @param  mixed $method
+     *
+     * @return void
+     */
+    public static function registerCastAs($cast, $method)
+    {
+        static::$cast_as_definitions[$cast] = $method;
+    }
+
+    /**
+     * Register cast to definition.
+     *
+     * @param  string $cast
+     * @param  mixed $method
+     *
+     * @return void
+     */
+    public static function registerCastTo($cast, $method)
+    {
+        static::$cast_to_definitions[$cast] = $method;
     }
 }
