@@ -20,7 +20,10 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
 * [Configuration](#configuration)
+* [Custom casts](#custom-casts)
 * [Contributing](#contributing)
+* [Reporting issues](#reporting-issues)
+* [Pull requests](#pull-requests)
 * [Credits](#credits)
 * [License](#license)
 
@@ -128,6 +131,53 @@ Model's using this method will throw a ValidationException exception if they do 
     }
 ```
 
+## Custom casts
+
+This package allows the ability to add custom casts. Simply create a trait, and register the cast on boot.
+
+
+```php
+trait ModelCastAsMoneyTrait
+{
+    /**
+     * Cast value as Money.
+     *
+     * @param mixed $value
+     *
+     * @return Money
+     */
+    protected function asMoney($value, $currency = 'USD'): Money
+    {
+        return new Money($value, $currency);
+    }
+
+    /**
+     * Convert the Money value back to a storable type.
+     *
+     * @return int
+     */
+    protected function castMoneyAttributeAsInt($key, $value): int
+    {
+        return (int) $value->amount();
+    }
+
+    /**
+     * Register the casting definitions.
+     */
+    public static function bootModelCastAsMoneyTrait()
+    {
+        static::registerCastAs('money', 'asMoney');
+        static::registerCastTo('money', 'castMoneyAttributeAsInt');
+    }
+}
+```
+
+
+### Available custom casts
+
+ * (money)[https://github.com/hnhdigital-os/laravel-model-schema-money]
+
+
 ## Contributing
 
 Please see [CONTRIBUTING](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md) for details.
@@ -136,11 +186,11 @@ Please see [CONTRIBUTING](https://github.com/hnhdigital-os/laravel-model-schema/
 
 Please observe and respect all aspects of the included [Code of Conduct](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CODE_OF_CONDUCT.md).
 
-### Reporting Issues
+### Reporting issues
 
 When reporting issues, please fill out the included [template](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/ISSUE_TEMPLATE.md) as completely as possible. Incomplete issues may be ignored or closed if there is not enough information included to be actionable.
 
-### Submitting Pull Requests
+### Pull requests
 
 Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md). Only PRs that meet all criterium will be accepted.
 
