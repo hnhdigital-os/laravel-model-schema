@@ -440,8 +440,8 @@ trait HasAttributes
     protected function getCastToDefinition($type)
     {
         // Custom definitions.
-        if (array_has(static::$default_cast_as_definitions, $type)) {
-            return array_get(static::$default_cast_as_definitions, $type);
+        if (array_has(static::$cast_to_definitions, $type)) {
+            return array_get(static::$cast_to_definitions, $type);
         }
 
         // Fallback to default.
