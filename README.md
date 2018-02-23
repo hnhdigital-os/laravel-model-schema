@@ -175,7 +175,7 @@ trait ModelCastAsMoneyTrait
 
 ### Available custom casts
 
- * [m]oney](https://github.com/hnhdigital-os/laravel-model-schema-money)
+ * [money](https://github.com/hnhdigital-os/laravel-model-schema-money)
 
 
 ## Contributing
