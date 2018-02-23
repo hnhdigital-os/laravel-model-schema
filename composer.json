@@ -44,7 +44,7 @@
             "phpcs -p -s --standard=PSR2 ./src ./tests"
         ],
         "phpmd": [
-            "phpmd ./src phpmd.xml"
+            "phpmd ./src text phpmd.xml"
         ]
     }
 }

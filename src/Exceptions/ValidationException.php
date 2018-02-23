@@ -66,7 +66,11 @@ class ValidationException extends \Exception
         array_set($response, 'errors', $this->validator->errors());
 
         if (array_has($config, 'feedback.html')) {
-            array_set($response, 'feedback', '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>');
+            array_set(
+                $response,
+                'feedback',
+                '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>'
+            );
         }
 
         // JSON response required.

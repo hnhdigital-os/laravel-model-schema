@@ -72,21 +72,21 @@ class Model extends EloquentModel
      *
      * @var array
      */
-    protected $_schema = [];
+    protected $model_schema = [];
 
     /**
      * Stores schema requests.
      *
      * @var array
      */
-    private $_schema_cache = [];
+    private $model_schema_cache = [];
 
     /**
      * Cache.
      *
      * @var array
      */
-    private $_cache = [];
+    private $model_cache = [];
 
     /**
      * Get the schema for this model.
@@ -175,7 +175,7 @@ class Model extends EloquentModel
      */
     public function getSchema()
     {
-        return array_replace_recursive(static::schema(), $this->_schema);
+        return array_replace_recursive(static::schema(), $this->model_schema);
     }
 
     /**
@@ -226,7 +226,7 @@ class Model extends EloquentModel
      */
     private function setSchemaCache($key, $data)
     {
-        $this->_schema_cache[$key] = $data;
+        $this->model_schema_cache[$key] = $data;
     }
 
     /**
@@ -238,8 +238,8 @@ class Model extends EloquentModel
      */
     private function getSchemaCache($key)
     {
-        if (isset($this->_schema_cache[$key])) {
-            return $this->_schema_cache[$key];
+        if (isset($this->model_schema_cache[$key])) {
+            return $this->model_schema_cache[$key];
         }
 
         return false;
@@ -254,7 +254,7 @@ class Model extends EloquentModel
      */
     private function breakSchemaCache($key)
     {
-        unset($this->_schema_cache[$key]);
+        unset($this->model_schema_cache[$key]);
     }
 
     /**
@@ -278,7 +278,7 @@ class Model extends EloquentModel
                     continue;
                 }
 
-                array_set($this->_schema, $key.'.'.$entry, $reset_value);
+                array_set($this->model_schema, $key.'.'.$entry, $reset_value);
             }
         }
 
@@ -289,7 +289,7 @@ class Model extends EloquentModel
 
         // Update each of the keys.
         foreach ($keys as $key) {
-            array_set($this->_schema, $key.'.'.$entry, $value);
+            array_set($this->model_schema, $key.'.'.$entry, $value);
         }
 
         // Break the cache.
@@ -325,8 +325,8 @@ class Model extends EloquentModel
      */
     protected function cache($key, $value)
     {
-        if (array_has($this->_cache, $key)) {
-            return array_get($this->_cache, $key);
+        if (array_has($this->model_cache, $key)) {
+            return array_get($this->model_cache, $key);
         }
 
         if (is_callable($value)) {
@@ -335,7 +335,7 @@ class Model extends EloquentModel
             $result = $value;
         }
 
-        array_set($this->_cache, $key, $result);
+        array_set($this->model_cache, $key, $result);
 
         return $result;
     }

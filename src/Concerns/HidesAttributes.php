@@ -38,7 +38,8 @@ trait HidesAttributes
     public function addHidden($attributes = null)
     {
         $hidden = array_merge(
-            $this->getHidden(), is_array($attributes) ? $attributes : func_get_args()
+            $this->getHidden(),
+            is_array($attributes) ? $attributes : func_get_args()
         );
 
         $this->updateSchema('hidden', $hidden, true, true, false);
@@ -80,7 +81,8 @@ trait HidesAttributes
     public function addVisible($attributes = null)
     {
         $visible = array_merge(
-            $this->getVisible(), is_array($attributes) ? $attributes : func_get_args()
+            $this->getVisible(),
+            is_array($attributes) ? $attributes : func_get_args()
         );
 
         $this->updateSchema('visible', $visible, true, true, false);

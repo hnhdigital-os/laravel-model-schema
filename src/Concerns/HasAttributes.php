@@ -183,7 +183,12 @@ trait HasAttributes
     public function getCasts()
     {
         if ($this->getIncrementing()) {
-            return array_merge([$this->getKeyName() => $this->getKeyType()], $this->getAttributesFromSchema('cast', true));
+            return array_merge(
+                [
+                    $this->getKeyName() => $this->getKeyType()
+                ],
+                $this->getAttributesFromSchema('cast', true)
+            );
         }
 
         return $this->getAttributesFromSchema('cast', true);
@@ -197,7 +202,12 @@ trait HasAttributes
     public function getCastParams()
     {
         if ($this->getIncrementing()) {
-            return array_merge([$this->getKeyName() => $this->getKeyType()], $this->getAttributesFromSchema('cast', true));
+            return array_merge(
+                [
+                    $this->getKeyName() => $this->getKeyType()
+                ],
+                $this->getAttributesFromSchema('cast', true)
+            );
         }
 
         return $this->getAttributesFromSchema('cast-params', true);
@@ -296,16 +306,14 @@ trait HasAttributes
             if (substr($value, 0, 1) === '$' && stripos($value, '()') !== false) {
                 $method = substr($value, 1, -2);
                 $value = is_callable([$this, $method]) ? $this->{$method}() : null;
-            }
 
             // Local attribute. ($some_attribute)
-            elseif (substr($value, 0, 1) === '$') {
+            } elseif (substr($value, 0, 1) === '$') {
                 $key = substr($value, 1);
                 $value = $this->{$key};
-            }
 
             // Callable function (eg helper). (some_function())
-            elseif (stripos($value, '()') !== false) {
+            } elseif (stripos($value, '()') !== false) {
                 $method = substr($value, 0, -2);
                 $value = is_callable($method) ? $method() : null;
             }
@@ -802,6 +810,6 @@ trait HasAttributes
      */
     public static function registerCastToDatabase($cast, $method)
     {
-       array_set(static::$cast_to, $cast, $method);
+        array_set(static::$cast_to, $cast, $method);
     }
 }
