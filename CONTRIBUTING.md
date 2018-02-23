@@ -29,8 +29,8 @@ You SHOULD update any relevant documentation.
 You MUST do the following:
 
 * Write commit messages that make sense and in past tense.
-* Write (or update) and run unit tests.
-* Check that your code must pass PHPCS and PHPMD PSR2 validation.
+* Write (or update) unit tests.
+* Run `composer test` and ensure everything passes.
 
 We use Travis and Code Climate to help us achieve successful unit testing, code quality and coverage.
 
