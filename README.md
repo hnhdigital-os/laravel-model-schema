@@ -146,9 +146,9 @@ trait ModelCastAsMoneyTrait
      *
      * @return Money
      */
-    protected function castAsMoney($value, $currency = 'USD'): Money
+    protected function castAsMoney($value, $currency = 'USD', $locale = 'en_US'): Money
     {
-        return new Money($value, $currency);
+        return new Money($value, $currency, $locale);
     }
 
     /**
