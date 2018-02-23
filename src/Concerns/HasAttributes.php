@@ -787,7 +787,7 @@ trait HasAttributes
      *
      * @return void
      */
-    public static function registerCastFrom($cast, $method)
+    public static function registerCastFromDatabase($cast, $method)
     {
         array_set(static::$cast_from, $cast, $method);
     }
@@ -800,7 +800,7 @@ trait HasAttributes
      *
      * @return void
      */
-    public static function registerCastTo($cast, $method)
+    public static function registerCastToDatabase($cast, $method)
     {
        array_set(static::$cast_to, $cast, $method);
     }

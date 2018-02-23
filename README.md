@@ -166,8 +166,8 @@ trait ModelCastAsMoneyTrait
      */
     public static function bootModelCastAsMoneyTrait()
     {
-        static::registerCastFrom('money', 'asMoney');
-        static::registerCastTo('money', 'castMoneyAttributeAsInt');
+        static::registerCastFromDatabase('money', 'asMoney');
+        static::registerCastToDatabase('money', 'castMoneyAttributeAsInt');
     }
 }
 ```
