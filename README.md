@@ -172,6 +172,28 @@ trait ModelCastAsMoneyTrait
 }
 ```
 
+Defining your attributes would look like this:
+
+```php
+    ...
+
+    'currency' => [
+        'cast'     => 'string',
+        'rules'    => 'min:3|max:3',
+        'fillable' => true,
+    ],
+    'total_amount' => [
+        'cast'        => 'money',
+        'cast-params' => '$currency:en_US',
+        'default'     => 0,
+        'fillable'    => true,
+    ],
+    ...
+```
+
+Casting parameters would include a helper function, or a local model method.
+
+eg `$currency:user_locale()`, or `$currency():$locale()`
 
 ### Available custom casts
 
