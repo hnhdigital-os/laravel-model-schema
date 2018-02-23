@@ -185,7 +185,7 @@ trait HasAttributes
         if ($this->getIncrementing()) {
             return array_merge(
                 [
-                    $this->getKeyName() => $this->getKeyType()
+                    $this->getKeyName() => $this->getKeyType(),
                 ],
                 $this->getAttributesFromSchema('cast', true)
             );
@@ -204,7 +204,7 @@ trait HasAttributes
         if ($this->getIncrementing()) {
             return array_merge(
                 [
-                    $this->getKeyName() => $this->getKeyType()
+                    $this->getKeyName() => $this->getKeyType(),
                 ],
                 $this->getAttributesFromSchema('cast', true)
             );
@@ -234,6 +234,7 @@ trait HasAttributes
         // Casting method is local.
         if (is_string($method) && method_exists($this, $method)) {
             $paramaters = $this->getCastAsParamaters($key);
+
             return $this->$method($value, ...$paramaters);
         }
 
@@ -790,8 +791,8 @@ trait HasAttributes
     /**
      * Register cast from database definition.
      *
-     * @param  string $cast
-     * @param  mixed $method
+     * @param string $cast
+     * @param mixed  $method
      *
      * @return void
      */
@@ -803,8 +804,8 @@ trait HasAttributes
     /**
      * Register cast to database definition.
      *
-     * @param  string $cast
-     * @param  mixed $method
+     * @param string $cast
+     * @param mixed  $method
      *
      * @return void
      */
