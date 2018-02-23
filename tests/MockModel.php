@@ -81,7 +81,7 @@ class MockModel extends Model
      */
     public function setIsAliveAttribute($value)
     {
-        $this->attributes['is_alive'] = $this->asBool($value);
+        $this->attributes['is_alive'] = $this->castAsBool($value);
 
         return $this;
     }

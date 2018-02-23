@@ -9,60 +9,60 @@ use Illuminate\Validation\Validator;
 trait HasAttributes
 {
     /**
-     * Model custom cast as definitions.
+     * Model custom cast from database definitions.
      *
      * @var array
      */
-    protected static $cast_as_definitions = [
+    protected static $cast_from = [
 
     ];
 
     /**
-     * Default cast as definitions.
+     * Default cast from database definitions.
      *
      * @var array
      */
-    protected static $default_cast_as_definitions = [
-        'uuid'       => 'asString',
-        'int'        => 'asInt',
-        'integer'    => 'asInt',
-        'real'       => 'asFloat',
-        'float'      => 'asFloat',
-        'double'     => 'asFloat',
-        'string'     => 'asString',
-        'bool'       => 'asBool',
-        'boolean'    => 'asBool',
-        'object'     => 'asObject',
-        'array'      => 'fromJson',
-        'json'       => 'fromJson',
-        'collection' => 'asCollection',
-        'date'       => 'asDate',
-        'datetime'   => 'asDateTime',
-        'timestamp'  => 'asTimestamp',
+    protected static $default_cast_from = [
+        'uuid'       => 'castAsString',
+        'int'        => 'castAsInt',
+        'integer'    => 'castAsInt',
+        'real'       => 'castAsFloat',
+        'float'      => 'castAsFloat',
+        'double'     => 'castAsFloat',
+        'string'     => 'castAsString',
+        'bool'       => 'castAsBool',
+        'boolean'    => 'castAsBool',
+        'object'     => 'castAsObject',
+        'array'      => 'castAsArray',
+        'json'       => 'castAsArray',
+        'collection' => 'castAsCollection',
+        'date'       => 'castAsDate',
+        'datetime'   => 'castAsDateTime',
+        'timestamp'  => 'castAsTimestamp',
     ];
 
     /**
-     * Model custom cast to definitions.
+     * Model custom cast to database definitions.
      *
      * @var array
      */
-    protected static $cast_to_definitions = [
+    protected static $cast_to = [
 
     ];
 
     /**
-     * Default cast to definitions.
+     * Default cast to database definitions.
      *
      * @var array
      */
-    protected static $default_cast_to_definitions = [
-        'bool'       => 'castAsBoolean',
-        'boolean'    => 'castAsBoolean',
-        'date'       => 'castAsDateTime',
-        'object'     => 'castAttributeAsJson',
-        'array'      => 'castAttributeAsJson',
-        'json'       => 'castAttributeAsJson',
-        'collection' => 'castAttributeAsJson',
+    protected static $default_cast_to = [
+        'bool'       => 'castToBoolean',
+        'boolean'    => 'castToBoolean',
+        'date'       => 'castToDateTime',
+        'object'     => 'castToJson',
+        'array'      => 'castToJson',
+        'json'       => 'castToJson',
+        'collection' => 'castToJson',
     ];
 
     /**
@@ -213,11 +213,11 @@ trait HasAttributes
      */
     protected function castAttribute($key, $value)
     {
-        if (($method = $this->getCastAsMethod($key)) === false) {
+        if (($method = $this->getCastFromMethod($key)) === false) {
             return $value;
         }
 
-        if ($method !== 'asDateTime' && is_null($value)) {
+        if (stripos($method, 'date') === false && is_null($value)) {
             return $value;
         }
 
@@ -238,9 +238,9 @@ trait HasAttributes
      *
      * @return string|array
      */
-    protected function getCastAsMethod($key)
+    protected function getCastFromMethod($key)
     {
-        return $this->getCastAsDefinition($this->getCastType($key));
+        return $this->getCastFromDefinition($this->getCastType($key));
     }
 
     /**
@@ -250,16 +250,16 @@ trait HasAttributes
      *
      * @return string|array|bool
      */
-    protected function getCastAsDefinition($type)
+    protected function getCastFromDefinition($type)
     {
         // Custom definitions.
-        if (array_has(static::$cast_as_definitions, $type)) {
-            return array_get(static::$cast_as_definitions, $type);
+        if (array_has(static::$cast_from, $type)) {
+            return array_get(static::$cast_from, $type);
         }
 
         // Fallback to default.
-        if (array_has(static::$default_cast_as_definitions, $type)) {
-            return array_get(static::$default_cast_as_definitions, $type);
+        if (array_has(static::$default_cast_from, $type)) {
+            return array_get(static::$default_cast_from, $type);
         }
 
         return false;
@@ -440,13 +440,13 @@ trait HasAttributes
     protected function getCastToDefinition($type)
     {
         // Custom definitions.
-        if (array_has(static::$cast_to_definitions, $type)) {
-            return array_get(static::$cast_to_definitions, $type);
+        if (array_has(static::$cast_to, $type)) {
+            return array_get(static::$cast_to, $type);
         }
 
         // Fallback to default.
-        if (array_has(static::$default_cast_to_definitions, $type)) {
-            return array_get(static::$default_cast_to_definitions, $type);
+        if (array_has(static::$default_cast_to, $type)) {
+            return array_get(static::$default_cast_to, $type);
         }
 
         return false;
@@ -459,7 +459,7 @@ trait HasAttributes
      *
      * @return bool
      */
-    protected function asBool($value)
+    protected function castAsBool($value)
     {
         return (bool) (int) $value;
     }
@@ -471,55 +471,77 @@ trait HasAttributes
      *
      * @return int
      */
-    protected function asInt($value)
+    protected function castAsInt($value)
     {
         return (int) $value;
     }
 
     /**
-     * Cast value as an int.
+     * Cast value as a float.
      *
      * @param mixed $value
      *
      * @return float
      */
-    protected function asFloat($value)
+    protected function castAsFloat($value)
     {
         return (float) $value;
     }
 
     /**
-     * Cast value as an int.
+     * Cast value as a strng.
      *
      * @param mixed $value
      *
      * @return string
      */
-    protected function asString($value)
+    protected function castAsString($value)
     {
         return (string) $value;
     }
 
     /**
-     * Cast value as an int.
+     * Cast value .
      *
      * @param mixed $value
      *
      * @return array
      */
-    protected function asObject($value)
+    protected function castAsArray($value)
+    {
+        return $this->fromJson($value);
+    }
+
+    /**
+     * Cast value as an object.
+     *
+     * @param mixed $value
+     *
+     * @return array
+     */
+    protected function castAsObject($value)
     {
         return $this->fromJson($value, true);
     }
 
     /**
-     * Return a timestamp as DateTime object.
+     * Cast date as a DateTime instance.
+     *
+     * @return DateTime
+     */
+    protected function castAsDate($value)
+    {
+        return $this->castAsDateTime($value);
+    }
+
+    /**
+     * Return a datetime as DateTime object.
      *
      * @param mixed $value
      *
      * @return \Illuminate\Support\Carbon
      */
-    protected function asDateTime($value)
+    protected function castAsDateTime($value)
     {
         if (is_null($value)) {
             return new NullCarbon();
@@ -529,13 +551,35 @@ trait HasAttributes
     }
 
     /**
-     * Cast boolean.
+     * Ensure all DateTime casting is redirected.
+     *
+     * @param mixed $value
+     *
+     * @return \Illuminate\Support\Carbon
+     */
+    protected function asDateTime($value)
+    {
+        return $this->castAsDateTime($value);
+    }
+
+    /**
+     * Cast to boolean.
      *
      * @return bool
      */
-    protected function castAsBoolean($key, $value)
+    protected function castToBoolean($key, $value)
     {
-        return $this->asBool($value);
+        return $this->castAsBool($value);
+    }
+
+    /**
+     * Cast to JSON.
+     *
+     * @return bool
+     */
+    protected function castToJson($key, $value)
+    {
+        return $this->castAttributeAsJson($key, $value);
     }
 
     /**
@@ -543,7 +587,7 @@ trait HasAttributes
      *
      * @return DateTime
      */
-    protected function castAsDateTime($key, $value)
+    protected function castToDateTime($key, $value)
     {
         return $this->fromDateTime($value);
     }
@@ -736,20 +780,20 @@ trait HasAttributes
     }
 
     /**
-     * Register cast as definition.
+     * Register cast from database definition.
      *
      * @param  string $cast
      * @param  mixed $method
      *
      * @return void
      */
-    public static function registerCastAs($cast, $method)
+    public static function registerCastFrom($cast, $method)
     {
-        static::$cast_as_definitions[$cast] = $method;
+        array_set(static::$cast_from, $cast, $method);
     }
 
     /**
-     * Register cast to definition.
+     * Register cast to database definition.
      *
      * @param  string $cast
      * @param  mixed $method
@@ -758,6 +802,6 @@ trait HasAttributes
      */
     public static function registerCastTo($cast, $method)
     {
-        static::$cast_to_definitions[$cast] = $method;
+       array_set(static::$cast_to, $cast, $method);
     }
 }
