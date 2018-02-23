@@ -2,7 +2,7 @@
 
 namespace HnhDigital\ModelSchema\Concerns;
 
-use GeneaLabs\LaravelNullCarbon\NullCarbon;
+use HnhDigital\NullCarbon\NullCarbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 

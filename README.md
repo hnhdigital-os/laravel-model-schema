@@ -218,8 +218,9 @@ Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/lar
 
 ## Give your open software some ❤ by giving it a ⭐
 
-We have included the awesome `symfony/thanks` composer package as a dev dependency. Simply run `composer thanks` after installing this
-package.
+We have included the awesome `symfony/thanks` composer package as a dev dependency.
+
+Run `composer thanks` after installing this package.
 
 ## Credits
 

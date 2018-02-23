@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d2f70d54f3c77e08c8451f55e60c51",
+    "content-hash": "283e7dddda4d5cfeece1fba0d339b542",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -279,48 +279,52 @@
             "time": "2017-11-14T20:44:03+00:00"
         },
         {
-            "name": "genealabs/laravel-null-carbon",
-            "version": "dev-master",
+            "name": "hnhdigital-os/laravel-null-carbon",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hnhdigital-os/laravel-null-carbon.git",
-                "reference": "2a2cb38056be44c54a9f7e65fb31c88188edfc97"
+                "reference": "25083cffbe4c3ab6ffd8551adf5c3dfe7fbde9bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hnhdigital-os/laravel-null-carbon/zipball/25083cffbe4c3ab6ffd8551adf5c3dfe7fbde9bb",
+                "reference": "25083cffbe4c3ab6ffd8551adf5c3dfe7fbde9bb",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "5.5 - 5.6",
                 "php": ">=7.1.3"
             },
             "require-dev": {
-                "codedungeon/phpunit-result-printer": "*",
-                "filp/whoops": "~2.0",
-                "fzaninotto/faker": "~1.4",
-                "genealabs/laravel-whoops-atom": "*",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~6.0",
+                "phpmd/phpmd": "~2.0",
+                "phpunit/phpunit": "^7.0",
+                "squizlabs/php_codesniffer": "~3.0",
                 "symfony/thanks": "*"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "GeneaLabs\\LaravelNullCarbon\\": "src/"
+                    "HnhDigital\\NullCarbon\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "GeneaLabs\\LaravelNullCarbon\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "GeneaLabs, LLC",
-                    "email": "hello@genealabs.com"
+                    "name": "Rocco Howard",
+                    "email": "rocco@hnh.digital"
                 }
             ],
             "description": "A Laravel Carbon null-class.",
-            "time": "2018-02-12T02:15:51+00:00"
+            "keywords": [
+                "carbon",
+                "laravel",
+                "null"
+            ],
+            "time": "2018-02-23T10:45:39+00:00"
         },
         {
             "name": "laravel/framework",
@@ -3741,9 +3745,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "genealabs/laravel-null-carbon": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

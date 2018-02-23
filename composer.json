@@ -9,16 +9,10 @@
             "email": "rocco@hnh.digital"
         }
     ],
-    "repositories": [
-        {
-            "url": "https://github.com/hnhdigital-os/laravel-null-carbon.git",
-            "type": "git"
-        }
-    ],
     "require": {
         "php": ">=7.1.0",
         "laravel/framework": ">=5.5",
-        "genealabs/laravel-null-carbon": "dev-master"
+        "hnhdigital-os/laravel-null-carbon": "~1.0"
     },
     "require-dev": {
         "illuminate/database": "4.*|5.*",
@@ -29,8 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "HnhDigital\\ModelSchema\\": "src/",
-            "HnhDigital\\ModelSchema\\Tests\\": "src/tests/"
+            "HnhDigital\\ModelSchema\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HnhDigital\\ModelSchema\\Tests\\": "tests/"
         }
     },
     "scripts": {
