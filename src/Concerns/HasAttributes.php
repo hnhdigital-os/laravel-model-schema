@@ -664,7 +664,7 @@ trait HasAttributes
                     $value = (int) $value;
                     break;
                 case 'numeric':
-                    $value = (float) preg_replace('/[^0-9.]*/', '', $value);
+                    $value = (float) preg_replace('/[^0-9.-]*/', '', $value);
                     break;
             }
 
