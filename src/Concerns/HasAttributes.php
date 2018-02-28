@@ -66,6 +66,30 @@ trait HasAttributes
     ];
 
     /**
+     * Cast type to validation type.
+     *
+     * @var array
+     */
+    protected static $cast_validation = [
+
+    ];
+
+    /**
+     * Default cast type to validation type.
+     *
+     * @var array
+     */
+    protected static $default_cast_validation = [
+        'uuid'     => 'string',
+        'bool'     => 'boolean',
+        'int'      => 'integer',
+        'real'     => 'numeric',
+        'float'    => 'numeric',
+        'double'   => 'numeric',
+        'datetime' => 'date',
+    ];
+
+    /**
      * Validator.
      *
      * @var Validator.
@@ -701,7 +725,11 @@ trait HasAttributes
 
         // Build full rule for each attribute.
         foreach ($casts as $key => $cast_type) {
-            $result[$key][] = $this->parseAttributeType($cast_type);
+            $cast_validator = $this->parseCastToValidator($cast_type);
+
+            if (!empty($cast_validator)) {
+                $result[$key][] = $cast_validator;
+            }
 
             if ($this->exists) {
                 $result[$key][] = 'sometimes';
@@ -729,21 +757,14 @@ trait HasAttributes
      *
      * @return string
      */
-    private function parseAttributeType($type)
+    private function parseCastToValidator($type)
     {
-        switch ($type) {
-            case 'uuid':
-                return 'string';
-            case 'bool':
-                return 'boolean';
-            case 'int':
-                return 'integer';
-            case 'real':
-            case 'float':
-            case 'double':
-                return 'numeric';
-            case 'datetime':
-                return 'date';
+        if (array_has(static::$cast_validation, $type)) {
+            return array_get(static::$cast_validation, $type);
+        }
+
+        if (array_has(static::$default_cast_validation, $type)) {
+            return array_get(static::$default_cast_validation, $type);
         }
 
         return $type;
@@ -812,5 +833,18 @@ trait HasAttributes
     public static function registerCastToDatabase($cast, $method)
     {
         array_set(static::$cast_to, $cast, $method);
+    }
+
+    /**
+     * Register cast to database definition.
+     *
+     * @param string $cast
+     * @param string $validator
+     *
+     * @return void
+     */
+    public static function registerCastValidator($cast, $validator)
+    {
+        array_set(static::$cast_validation, $cast, $validator);
     }
 }
