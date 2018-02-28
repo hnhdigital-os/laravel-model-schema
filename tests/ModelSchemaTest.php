@@ -395,11 +395,11 @@ class ModelSchemaTest extends TestCase
         $this->assertTrue($model->exists());
 
         $this->assertInstanceOf(\Carbon\Carbon::class, $model->created_at);
-        $this->assertInstanceOf(\GeneaLabs\LaravelNullCarbon\NullCarbon::class, $model->deleted_at);
+        $this->assertInstanceOf(\HnhDigital\NullCarbon\NullCarbon::class, $model->deleted_at);
 
         $model = $model->fresh();
 
         $this->assertInstanceOf(\Carbon\Carbon::class, $model->created_at);
-        $this->assertInstanceOf(\GeneaLabs\LaravelNullCarbon\NullCarbon::class, $model->deleted_at);
+        $this->assertInstanceOf(\HnhDigital\NullCarbon\NullCarbon::class, $model->deleted_at);
     }
 }
