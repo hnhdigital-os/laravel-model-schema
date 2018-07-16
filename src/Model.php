@@ -54,6 +54,13 @@ class Model extends EloquentModel
     }
 
     /**
+     * Describe the database table.
+     *
+     * @var array
+     */
+    protected static $db_table;
+
+    /**
      * Describes the schema for this model.
      *
      * @var array
@@ -96,6 +103,30 @@ class Model extends EloquentModel
     public static function schema()
     {
         return static::$schema;
+    }
+
+    /**
+     * Get table name.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        if (!empty(static::$db_table)) {
+            return static::$db_table;
+        }
+
+        return parent::getTable();
+    }
+
+    /**
+     * Get table name (static).
+     *
+     * @return string
+     */
+    public static function getDbTable()
+    {
+        return static::$db_table;
     }
 
     /**
