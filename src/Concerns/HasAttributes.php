@@ -518,6 +518,15 @@ trait HasAttributes
      */
     protected function castAsFloat($value)
     {
+        switch ($value) {
+            case 'Infinity':
+                return INF;
+            case '-Infinity':
+                return -INF;
+            case 'NaN':
+                return NAN;
+        }
+
         return (float) $value;
     }
 
