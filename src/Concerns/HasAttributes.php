@@ -518,7 +518,7 @@ trait HasAttributes
      */
     protected function castAsFloat($value)
     {
-        switch ($value) {
+        switch ((string) $value) {
             case 'Infinity':
                 return INF;
             case '-Infinity':
