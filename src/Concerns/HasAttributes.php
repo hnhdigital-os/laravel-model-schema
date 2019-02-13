@@ -494,6 +494,11 @@ trait HasAttributes
      */
     protected function castAsBool($value)
     {
+        // If value is provided as string verison of true/false, convert to boolean.
+        if ($value === 'true' || $value === 'false') {
+            $value = $value === 'true';
+        }
+
         return (bool) (int) $value;
     }
 
