@@ -36,6 +36,7 @@ trait HasAttributes
         'array'      => 'castAsArray',
         'json'       => 'castAsArray',
         'collection' => 'castAsCollection',
+        'commalist'  => 'castAsCommaList',
         'date'       => 'castAsDate',
         'datetime'   => 'castAsDateTime',
         'timestamp'  => 'castAsTimestamp',
@@ -63,6 +64,7 @@ trait HasAttributes
         'array'      => 'castToJson',
         'json'       => 'castToJson',
         'collection' => 'castToJson',
+        'commalist'  => 'castToCommaList',
     ];
 
     /**
@@ -598,6 +600,20 @@ trait HasAttributes
     }
 
     /**
+     * Cast comma list to array.
+     *
+     * @return array
+     */
+    protected function castAsCommaList($value)
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return explode(',', $value);
+    }
+
+    /**
      * Ensure all DateTime casting is redirected.
      *
      * @param mixed $value
@@ -637,6 +653,20 @@ trait HasAttributes
     protected function castToDateTime($key, $value)
     {
         return $this->fromDateTime($value);
+    }
+
+    /**
+     * Cast array to string
+     *
+     * @return array
+     */
+    protected function castToCommaList($value)
+    {
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return implode(',', $value);
     }
 
     /**
