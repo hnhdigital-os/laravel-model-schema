@@ -29,6 +29,7 @@ trait HasAttributes
         'real'       => 'castAsFloat',
         'float'      => 'castAsFloat',
         'double'     => 'castAsFloat',
+        'decimal'    => 'castAsFloat',
         'string'     => 'castAsString',
         'bool'       => 'castAsBool',
         'boolean'    => 'castAsBool',
@@ -88,6 +89,7 @@ trait HasAttributes
         'real'     => 'numeric',
         'float'    => 'numeric',
         'double'   => 'numeric',
+        'decimal'  => 'numeric',
         'datetime' => 'date',
     ];
 
