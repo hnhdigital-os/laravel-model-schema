@@ -785,7 +785,12 @@ trait HasAttributes
             $result[$key][] = $rule;
         }
 
-        unset($result[$this->getKeyName()]);
+        // Key name could be composite. Only remove from rules if singlular.
+        $key_name = $this->getKeyName();
+
+        if (is_string($key_name)) {
+            unset($result[$key_name]);
+        }
 
         foreach ($result as $key => $rules) {
             $result[$key] = implode('|', $rules);
