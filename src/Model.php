@@ -68,6 +68,13 @@ class Model extends EloquentModel
     protected static $schema = [];
 
     /**
+     * The Collection of the schema.
+     *
+     * @var array
+     */
+    protected static $schema_collection;
+
+    /**
      * Stores schema requests.
      *
      * @var array
@@ -103,6 +110,27 @@ class Model extends EloquentModel
     public static function schema()
     {
         return static::$schema;
+    }
+
+    /**
+     * Get the schema  for this model as a collection
+     *
+     * @return Collection
+     */
+    public static function schemaCollection()
+    {
+        if (!empty(static::$schema_collection)) {
+            return static::$schema_collection;
+        }
+
+        static::$schema_collection = collect();
+
+        foreach (static::$schema as $attribute_name => $schema) {
+            $schema['attribute'] = $attribute_name;
+            static::$schema_collection->add($schema);
+        }
+
+        return static::$schema_collection;
     }
 
     /**
