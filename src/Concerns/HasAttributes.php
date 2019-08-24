@@ -3,6 +3,7 @@
 namespace HnhDigital\ModelSchema\Concerns;
 
 use HnhDigital\NullCarbon\NullCarbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
@@ -714,45 +715,66 @@ trait HasAttributes
 
         // Check each dirty attribute.
         foreach ($this->getDirty() as $key => $value) {
-            // Get the rules.
-            $rules_array = explode('|', array_get($rules, $key, ''));
-
-            // First item is always the cast type.
-            $cast = array_get($rules_array, 0, false);
-
-            // Check if the value can be nullable.
-            $nullable = in_array('nullable', $rules_array);
-
-            switch ($cast) {
-                case 'string':
-                    $value = (string) $value;
-                    break;
-                case 'boolean':
-                    $value = (bool) (int) $value;
-                    break;
-                case 'integer':
-                    $value = (int) $value;
-                    break;
-                case 'numeric':
-                    $value = (float) preg_replace('/[^0-9.-]*/', '', $value);
-                    break;
-            }
-
-            // Value is empty, let's nullify.
-            if (empty($value) && $nullable) {
-                $value = null;
-            }
-
-            $this->attributes[$key] = $value;
+            $this->attributes[$key] = static::preCastAttribute(Arr::get($rules, $key, ''), $value);
         }
+    }
+
+    /**
+     * Pre-cast attribute to the correct value.
+     *
+     * @param mixed $rules
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function preCastAttribute($rules, $value)
+    {
+        // Get the rules.
+        if (is_string($rules)) {
+            $rules = explode('|', $rules);
+        }
+
+        // First item is always the cast type.
+        $cast = Arr::get($rules, 0, false);
+
+        // Check if the value can be nullable.
+        $nullable = in_array('nullable', $rules);
+
+        switch ($cast) {
+            case 'string':
+                $value = strval($value);
+                break;
+            case 'boolean':
+                $value = $value === 'true' ? true : $value;
+                $value = $value === 'false' ? false : $value;
+                $value = boolval($value);
+
+                return $value;
+            case 'integer':
+                if (is_numeric($value)) {
+                    return intval($value);
+                }
+                break;
+            case 'numeric':
+                return (float) preg_replace('/[^0-9.-]*/', '', $value);
+        }
+
+        // Value is empty, let's nullify.
+        if (empty($value) && $nullable) {
+            $value = null;
+        }
+
+        return $value;
     }
 
     /**
      * Get rules for attributes.
      *
+     * @param string|null $attribute_key
+     *
      * @return array
      */
-    public function getAttributeRules()
+    public function getAttributeRules($attribute_key = null)
     {
         $result = [];
         $attributes = $this->getAttributesFromSchema();
@@ -796,6 +818,10 @@ trait HasAttributes
 
         foreach ($result as $key => $rules) {
             $result[$key] = implode('|', $rules);
+        }
+
+        if (!is_null($attribute_key)) {
+            return $result[$attribute_key];
         }
 
         return $result;
