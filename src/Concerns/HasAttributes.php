@@ -426,6 +426,16 @@ trait HasAttributes
         // Get the method that modifies this value before storing.
         $method = $this->getCastToMethod($key);
 
+        // Get the rules for this attribute.
+        $rules = $this->getAttributeRules($key);
+
+        // Skip casting if null is allowed.
+        if (is_null($value) && stripos($rules, 'nullable') !== false) {
+            $this->attributes[$key] = $value;
+
+            return $this;
+        }
+
         // Casting method is local.
         if (is_string($method) && method_exists($this, $method)) {
             $value = $this->$method($key, $value);
@@ -740,6 +750,10 @@ trait HasAttributes
         // Check if the value can be nullable.
         $nullable = in_array('nullable', $rules);
 
+        if (is_null($value) && $nullable) {
+            return $value;
+        }
+
         switch ($cast) {
             case 'string':
                 $value = strval($value);
@@ -821,7 +835,7 @@ trait HasAttributes
         }
 
         if (!is_null($attribute_key)) {
-            return $result[$attribute_key];
+            return Arr::get($result, $attribute_key, '');
         }
 
         return $result;
