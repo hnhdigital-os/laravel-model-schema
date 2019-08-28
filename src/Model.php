@@ -12,10 +12,10 @@ namespace HnhDigital\ModelSchema;
  */
 
 use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes as EloquentHasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttributes;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
 
 /**
  * This is the Model class.
@@ -120,13 +120,13 @@ class Model extends EloquentModel
     }
 
     /**
-     * Get the schema  for this model as a collection
+     * Get the schema  for this model as a collection.
      *
      * @return Collection
      */
     public static function schemaCollection()
     {
-        if (!empty(static::$schema_collection)) {
+        if (! empty(static::$schema_collection)) {
             return static::$schema_collection;
         }
 
@@ -147,7 +147,7 @@ class Model extends EloquentModel
      */
     public function getTable()
     {
-        if (!empty(static::$db_table)) {
+        if (! empty(static::$db_table)) {
             return static::$db_table;
         }
 
@@ -188,7 +188,7 @@ class Model extends EloquentModel
         $attributes = [];
 
         foreach (static::schema() as $key => $config) {
-            if (!Arr::has($config, $entry)) {
+            if (! Arr::has($config, $entry)) {
                 continue;
             }
             if ($with_value) {
@@ -224,7 +224,7 @@ class Model extends EloquentModel
             return false;
         }
 
-        list($key, $value) = $args;
+        [$key, $value] = $args;
 
         static::$schema_cache[$key] = $value;
     }
@@ -277,11 +277,11 @@ class Model extends EloquentModel
         $attributes = [];
 
         foreach ($this->getSchema() as $key => $config) {
-            if (!is_null($is_value) && $is_value != Arr::get($config, $entry)) {
+            if (! is_null($is_value) && $is_value != Arr::get($config, $entry)) {
                 continue;
             }
 
-            if (!Arr::has($config, $entry)) {
+            if (! Arr::has($config, $entry)) {
                 continue;
             }
 
@@ -367,7 +367,7 @@ class Model extends EloquentModel
         }
 
         // Keys can be a single string attribute.
-        if (!is_array($keys)) {
+        if (! is_array($keys)) {
             $keys = [$keys];
         }
 
@@ -434,7 +434,7 @@ class Model extends EloquentModel
         // Validate dirty attributes before commiting to save.
         static::creating(function ($model) {
             $model->setDefaultValuesForAttributes();
-            if (!$model->savingValidation()) {
+            if (! $model->savingValidation()) {
                 $validator = $model->getValidator();
                 $issues = $validator->errors()->all();
 
@@ -457,7 +457,7 @@ class Model extends EloquentModel
         // Boot event for updating this model.
         // Validate dirty attributes before commiting to save.
         static::updating(function ($model) {
-            if (!$model->savingValidation()) {
+            if (! $model->savingValidation()) {
                 $validator = $model->getValidator();
                 $issues = $validator->errors()->all();
 
