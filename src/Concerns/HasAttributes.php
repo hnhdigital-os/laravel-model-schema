@@ -2,10 +2,10 @@
 
 namespace HnhDigital\ModelSchema\Concerns;
 
-use HnhDigital\NullCarbon\NullCarbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
+use HnhDigital\NullCarbon\NullCarbon;
 
 trait HasAttributes
 {
@@ -112,7 +112,7 @@ trait HasAttributes
     public function addMissingAttributes()
     {
         foreach ($this->getSchema() as $key => $settings) {
-            if (!Arr::has($this->attributes, $key)) {
+            if (! Arr::has($this->attributes, $key)) {
                 Arr::set($this->attributes, $key, Arr::get($settings, 'default', null));
             }
         }
@@ -677,7 +677,7 @@ trait HasAttributes
     }
 
     /**
-     * Cast array to string
+     * Cast array to string.
      *
      * @return array
      */
@@ -839,7 +839,7 @@ trait HasAttributes
         foreach ($casts as $key => $cast_type) {
             $cast_validator = $this->parseCastToValidator($cast_type);
 
-            if (!empty($cast_validator)) {
+            if (! empty($cast_validator)) {
                 $result[$key][] = $cast_validator;
             }
 
@@ -864,7 +864,7 @@ trait HasAttributes
             $result[$key] = implode('|', $rules);
         }
 
-        if (!is_null($attribute_key)) {
+        if (! is_null($attribute_key)) {
             return Arr::get($result, $attribute_key, '');
         }
 

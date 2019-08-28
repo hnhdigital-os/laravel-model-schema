@@ -35,7 +35,7 @@ trait GuardsAttributes
      */
     public function getGuarded()
     {
-        $guarded_create = !$this->exists ? $this->getAttributesFromSchema('guarded-create', false, true) : [];
+        $guarded_create = ! $this->exists ? $this->getAttributesFromSchema('guarded-create', false, true) : [];
         $guarded_update = $this->exists ? $this->getAttributesFromSchema('guarded-update', false, true) : [];
         $guarded = $this->getAttributesFromSchema('guarded', false, true);
 

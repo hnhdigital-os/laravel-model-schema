@@ -103,7 +103,7 @@ trait HidesAttributes
 
         $this->updateSchema('hidden', $hidden, true, true, false);
 
-        if (!empty($this->getVisible())) {
+        if (! empty($this->getVisible())) {
             $this->addVisible($attributes);
         }
 
