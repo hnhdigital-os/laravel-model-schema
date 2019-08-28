@@ -11,6 +11,7 @@ namespace HnhDigital\ModelSchema;
  * file that was distributed with this source code.
  */
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes as EloquentHasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttributes;
@@ -105,11 +106,17 @@ class Model extends EloquentModel
     /**
      * Get the schema for this model.
      *
+     * @param string|null $key
+     *
      * @return array
      */
-    public static function schema()
+    public static function schema($key = null)
     {
-        return static::$schema;
+        if (is_null($key)) {
+            return static::$schema;
+        }
+
+        return Arr::get(static::$schema, $key, []);
     }
 
     /**
