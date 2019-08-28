@@ -170,6 +170,8 @@ class Model extends EloquentModel
      * @param null|string $entry
      *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public static function fromSchema($entry = null, $with_value = false)
     {
@@ -177,20 +179,25 @@ class Model extends EloquentModel
             return array_keys(static::schema());
         }
 
-        if ($attributes = static::schemaCache($entry.'_'.(int) $with_value)) {
+        $attributes = static::schemaCache($entry.'_'.(int) $with_value);
+
+        if ($attributes !== false) {
             return $attributes;
         }
 
         $attributes = [];
 
         foreach (static::schema() as $key => $config) {
-            if (array_has($config, $entry)) {
-                if ($with_value) {
-                    $attributes[$key] = $config[$entry];
-                } else {
-                    $attributes[] = $key;
-                }
+            if (!Arr::has($config, $entry)) {
+                continue;
             }
+            if ($with_value) {
+                $attributes[$key] = $config[$entry];
+
+                continue;
+            }
+
+            $attributes[] = $key;
         }
 
         static::schemaCache($entry.'_'.(int) $with_value, $attributes);
@@ -228,6 +235,8 @@ class Model extends EloquentModel
      * @param string $key
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private static function unsetSchemaCache($key)
     {
@@ -250,6 +259,8 @@ class Model extends EloquentModel
      * @param null|string $entry
      *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function getAttributesFromSchema($entry = null, $with_value = false, $is_value = null)
     {
@@ -257,24 +268,29 @@ class Model extends EloquentModel
             return array_keys($this->getSchema());
         }
 
-        if ($attributes = $this->getSchemaCache($entry.'_'.(int) $with_value)) {
+        $attributes = $this->getSchemaCache($entry.'_'.(int) $with_value);
+
+        if ($attributes !== false) {
             return $attributes;
         }
 
         $attributes = [];
 
         foreach ($this->getSchema() as $key => $config) {
-            if (!is_null($is_value) && $is_value != array_get($config, $entry)) {
+            if (!is_null($is_value) && $is_value != Arr::get($config, $entry)) {
                 continue;
             }
 
-            if (array_has($config, $entry)) {
-                if ($with_value) {
-                    $attributes[$key] = $config[$entry];
-                } else {
-                    $attributes[] = $key;
-                }
+            if (!Arr::has($config, $entry)) {
+                continue;
             }
+
+            if ($with_value) {
+                $attributes[$key] = $config[$entry];
+                continue;
+            }
+
+            $attributes[] = $key;
         }
 
         $this->setSchemaCache($entry.'_'.(int) $with_value, $attributes);
@@ -332,6 +348,8 @@ class Model extends EloquentModel
      * @param mixed        $reset_value
      *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function setSchema($entry, $keys, $value, $reset = false, $reset_value = null)
     {
@@ -344,7 +362,7 @@ class Model extends EloquentModel
                     continue;
                 }
 
-                array_set($this->model_schema, $key.'.'.$entry, $reset_value);
+                Arr::set($this->model_schema, $key.'.'.$entry, $reset_value);
             }
         }
 
@@ -355,7 +373,7 @@ class Model extends EloquentModel
 
         // Update each of the keys.
         foreach ($keys as $key) {
-            array_set($this->model_schema, $key.'.'.$entry, $value);
+            Arr::set($this->model_schema, $key.'.'.$entry, $value);
         }
 
         // Break the cache.
@@ -391,17 +409,13 @@ class Model extends EloquentModel
      */
     protected function cache($key, $value)
     {
-        if (array_has($this->model_cache, $key)) {
-            return array_get($this->model_cache, $key);
+        if (Arr::has($this->model_cache, $key)) {
+            return Arr::get($this->model_cache, $key);
         }
 
-        if (is_callable($value)) {
-            $result = $value();
-        } else {
-            $result = $value;
-        }
+        $result = is_callable($value) ? $value() : $value;
 
-        array_set($this->model_cache, $key, $result);
+        Arr::set($this->model_cache, $key, $result);
 
         return $result;
     }

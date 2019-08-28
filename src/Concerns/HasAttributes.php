@@ -112,8 +112,8 @@ trait HasAttributes
     public function addMissingAttributes()
     {
         foreach ($this->getSchema() as $key => $settings) {
-            if (!array_has($this->attributes, $key)) {
-                array_set($this->attributes, $key, array_get($settings, 'default', null));
+            if (!Arr::has($this->attributes, $key)) {
+                Arr::set($this->attributes, $key, Arr::get($settings, 'default', null));
             }
         }
     }
@@ -135,7 +135,7 @@ trait HasAttributes
      */
     public function isValidAttribute($key)
     {
-        return array_has($this->getSchema(), $key);
+        return Arr::has($this->getSchema(), $key);
     }
 
     /**
@@ -156,7 +156,9 @@ trait HasAttributes
             return false;
         }
 
-        if (($method = $this->getAuthMethod($key)) !== false) {
+        $method = $this->getAuthMethod($key);
+
+        if ($method !== false) {
             return $this->$method($key);
         }
 
@@ -252,7 +254,9 @@ trait HasAttributes
      */
     protected function castAttribute($key, $value)
     {
-        if (($method = $this->getCastFromMethod($key)) === false) {
+        $method = $this->getCastFromMethod($key);
+
+        if ($method === false) {
             return $value;
         }
 
@@ -293,13 +297,13 @@ trait HasAttributes
     protected function getCastFromDefinition($type)
     {
         // Custom definitions.
-        if (array_has(static::$cast_from, $type)) {
-            return array_get(static::$cast_from, $type);
+        if (Arr::has(static::$cast_from, $type)) {
+            return Arr::get(static::$cast_from, $type);
         }
 
         // Fallback to default.
-        if (array_has(static::$default_cast_from, $type)) {
-            return array_get(static::$default_cast_from, $type);
+        if (Arr::has(static::$default_cast_from, $type)) {
+            return Arr::get(static::$default_cast_from, $type);
         }
 
         return false;
@@ -316,7 +320,7 @@ trait HasAttributes
     {
         $cast_params = $this->getCastParams();
 
-        $paramaters = explode(':', array_get($cast_params, $key, ''));
+        $paramaters = explode(':', Arr::get($cast_params, $key, ''));
         $parsed = $this->parseCastParamaters($paramaters);
 
         return $parsed;
@@ -395,8 +399,8 @@ trait HasAttributes
      */
     public function getAuthMethod($key)
     {
-        if (array_has($this->getAuths(), $key)) {
-            $method = 'auth'.studly_case(array_get($this->getAuths(), $key));
+        if (Arr::has($this->getAuths(), $key)) {
+            $method = 'auth'.studly_case(Arr::get($this->getAuths(), $key));
 
             return method_exists($this, $method) ? $method : false;
         }
@@ -488,13 +492,13 @@ trait HasAttributes
     protected function getCastToDefinition($type)
     {
         // Custom definitions.
-        if (array_has(static::$cast_to, $type)) {
-            return array_get(static::$cast_to, $type);
+        if (Arr::has(static::$cast_to, $type)) {
+            return Arr::get(static::$cast_to, $type);
         }
 
         // Fallback to default.
-        if (array_has(static::$default_cast_to, $type)) {
-            return array_get(static::$default_cast_to, $type);
+        if (Arr::has(static::$default_cast_to, $type)) {
+            return Arr::get(static::$default_cast_to, $type);
         }
 
         return false;
@@ -645,6 +649,8 @@ trait HasAttributes
      */
     protected function castToBoolean($key, $value)
     {
+        unset($key);
+
         return $this->castAsBool($value);
     }
 
@@ -665,6 +671,8 @@ trait HasAttributes
      */
     protected function castToDateTime($key, $value)
     {
+        unset($key);
+
         return $this->fromDateTime($value);
     }
 
@@ -673,8 +681,10 @@ trait HasAttributes
      *
      * @return array
      */
-    protected function castToCommaList($value)
+    protected function castToCommaList($key, $value)
     {
+        unset($key);
+
         if (is_string($value)) {
             return $value;
         }
@@ -745,36 +755,56 @@ trait HasAttributes
         }
 
         // First item is always the cast type.
-        $cast = Arr::get($rules, 0, false);
+        $cast_type = Arr::get($rules, 0, false);
 
         // Check if the value can be nullable.
-        $nullable = in_array('nullable', $rules);
+        $is_nullable = in_array('nullable', $rules);
 
-        if (is_null($value) && $nullable) {
+        return self::castType($cast_type, $value, $is_nullable);
+    }
+
+    /**
+     * Cast a value to native.
+     *
+     * @param string $cast_type
+     * @param mixed  $value
+     * @param bool   $is_nullable
+     *
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    private static function castType($cast_type, $value, $is_nullable)
+    {
+        // Is null and allows null.
+        if (is_null($value) && $is_nullable) {
             return $value;
         }
 
-        switch ($cast) {
-            case 'string':
-                $value = strval($value);
-                break;
-            case 'boolean':
-                $value = $value === 'true' ? true : $value;
-                $value = $value === 'false' ? false : $value;
-                $value = boolval($value);
+        // Boolean type.
+        if ($cast_type === 'boolean') {
+            $value = $value === 'true' ? true : $value;
+            $value = $value === 'false' ? false : $value;
+            $value = boolval($value);
 
-                return $value;
-            case 'integer':
-                if (is_numeric($value)) {
-                    return intval($value);
-                }
-                break;
-            case 'numeric':
-                return (float) preg_replace('/[^0-9.-]*/', '', $value);
+            return $value;
         }
 
-        // Value is empty, let's nullify.
-        if (empty($value) && $nullable) {
+        // Numeric type.
+        if ($cast_type === 'numeric') {
+            return (float) preg_replace('/[^0-9.-]*/', '', $value);
+        }
+
+        // Integer type.
+        if ($cast_type === 'integer' && is_numeric($value)) {
+            return intval($value);
+        }
+
+        $value = strval($value);
+
+        // Empty value and allows null.
+        if (empty($value) && $is_nullable) {
             $value = null;
         }
 
@@ -850,12 +880,12 @@ trait HasAttributes
      */
     private function parseCastToValidator($type)
     {
-        if (array_has(static::$cast_validation, $type)) {
-            return array_get(static::$cast_validation, $type);
+        if (Arr::has(static::$cast_validation, $type)) {
+            return Arr::get(static::$cast_validation, $type);
         }
 
-        if (array_has(static::$default_cast_validation, $type)) {
-            return array_get(static::$default_cast_validation, $type);
+        if (Arr::has(static::$default_cast_validation, $type)) {
+            return Arr::get(static::$default_cast_validation, $type);
         }
 
         return $type;
@@ -910,7 +940,7 @@ trait HasAttributes
      */
     public static function registerCastFromDatabase($cast, $method)
     {
-        array_set(static::$cast_from, $cast, $method);
+        Arr::set(static::$cast_from, $cast, $method);
     }
 
     /**
@@ -923,7 +953,7 @@ trait HasAttributes
      */
     public static function registerCastToDatabase($cast, $method)
     {
-        array_set(static::$cast_to, $cast, $method);
+        Arr::set(static::$cast_to, $cast, $method);
     }
 
     /**
@@ -936,6 +966,6 @@ trait HasAttributes
      */
     public static function registerCastValidator($cast, $validator)
     {
-        array_set(static::$cast_validation, $cast, $validator);
+        Arr::set(static::$cast_validation, $cast, $validator);
     }
 }

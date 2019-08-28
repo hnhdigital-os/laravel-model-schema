@@ -2,6 +2,8 @@
 
 namespace HnhDigital\ModelSchema\Exceptions;
 
+use Illuminate\Support\Arr;
+
 class ValidationException extends \Exception
 {
     /**
@@ -59,14 +61,14 @@ class ValidationException extends \Exception
         $response = self::$response;
 
         // Fill the response.
-        array_set($response, 'is_error', true);
-        array_set($response, 'message', $this->getMessage());
-        array_set($response, 'fields', array_keys($this->validator->errors()->messages()));
-        array_set($response, 'feedback', $this->validator->errors()->all());
-        array_set($response, 'errors', $this->validator->errors());
+        Arr::set($response, 'is_error', true);
+        Arr::set($response, 'message', $this->getMessage());
+        Arr::set($response, 'fields', array_keys($this->validator->errors()->messages()));
+        Arr::set($response, 'feedback', $this->validator->errors()->all());
+        Arr::set($response, 'errors', $this->validator->errors());
 
-        if (array_has($config, 'feedback.html')) {
-            array_set(
+        if (Arr::has($config, 'feedback.html')) {
+            Arr::set(
                 $response,
                 'feedback',
                 '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>'
