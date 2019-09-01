@@ -71,7 +71,7 @@ class ValidationException extends \Exception
             Arr::set(
                 $response,
                 'feedback',
-                '<ul><li>'.implode('</li><li>', array_get($response, 'feedback')).'</li></ul>'
+                '<ul><li>'.implode('</li><li>', Arr::get($response, 'feedback')).'</li></ul>'
             );
         }
 
@@ -83,9 +83,9 @@ class ValidationException extends \Exception
 
         // Redirect response, flash to session.
         session()->flash('is_error', true);
-        session()->flash('message', array_get($response, 'message', ''));
-        session()->flash('feedback', array_get($response, 'feedback', ''));
-        session()->flash('fields', array_get($response, 'fields', []));
+        session()->flash('message', Arr::get($response, 'message', ''));
+        session()->flash('feedback', Arr::get($response, 'feedback', ''));
+        session()->flash('fields', Arr::get($response, 'fields', []));
 
         // Redirect to provided route.
         return redirect()
