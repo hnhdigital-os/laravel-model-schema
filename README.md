@@ -204,22 +204,19 @@ eg `$currency:user_locale()`, or `$currency():$locale()`
 
  * Cast the attribute to [Money](https://github.com/hnhdigital-os/laravel-model-schema-money)
 
-
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md) for details.
+Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md).
 
-## Contributing
+Only PRs that meet all criterium will be accepted.
+
+## Code of conduct
 
 Please observe and respect all aspects of the included [Code of Conduct](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CODE_OF_CONDUCT.md).
 
 ### Reporting issues
 
 When reporting issues, please fill out the included [template](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/ISSUE_TEMPLATE.md) as completely as possible. Incomplete issues may be ignored or closed if there is not enough information included to be actionable.
-
-### Pull requests
-
-Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md). Only PRs that meet all criterium will be accepted.
 
 ## Credits
 
