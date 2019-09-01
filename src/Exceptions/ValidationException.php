@@ -55,7 +55,7 @@ class ValidationException extends \Exception
      *
      * @return string|array
      */
-    public function getResponse($route, $parameters, $config = [])
+    public function getResponse($route, $parameters = [], $config = [])
     {
         // Copy standard response.
         $response = self::$response;

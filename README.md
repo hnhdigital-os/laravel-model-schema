@@ -29,8 +29,8 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 
 ## Prerequisites
 
-* PHP >= 7.1
-* Laravel >= 5.5
+* PHP >= 7.2
+* Laravel >= 5.8
 
 ## Installation
 
@@ -114,7 +114,7 @@ Ensure the parent boot occurs after your triggers so that any attribute changes 
     }
 ```
 
-Model's using this method will throw a ValidationException exception if they do not pass validation. Be sure to catch these.
+Models implementing this package will now throw a ValidationException exception if they do not pass validation. Be sure to catch these.
 
 ```php
     try {
