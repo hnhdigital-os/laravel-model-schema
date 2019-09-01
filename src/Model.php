@@ -277,7 +277,11 @@ class Model extends EloquentModel
         $attributes = [];
 
         foreach ($this->getSchema() as $key => $config) {
-            if (! is_null($is_value) && $is_value != Arr::get($config, $entry)) {
+            if (! is_null($is_value) && is_callable($is_value)) {
+                if (! $is_value(Arr::get($config, $entry))) {
+                    continue;
+                }
+            } elseif (! is_null($is_value) && $is_value != Arr::get($config, $entry)) {
                 continue;
             }
 
@@ -351,11 +355,12 @@ class Model extends EloquentModel
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public function setSchema($entry, $keys, $value, $reset = false, $reset_value = null)
+    public function setSchema($entry, $keys, $set_value, $reset = false, $reset_value = null)
     {
         // Reset existing values in the schema.
         if ($reset) {
             $current = $this->getSchema($entry);
+
             foreach ($current as $key => $value) {
                 if (is_null($reset_value)) {
                     unset($this->schema[$key][$entry]);
@@ -366,14 +371,9 @@ class Model extends EloquentModel
             }
         }
 
-        // Keys can be a single string attribute.
-        if (! is_array($keys)) {
-            $keys = [$keys];
-        }
-
         // Update each of the keys.
-        foreach ($keys as $key) {
-            Arr::set($this->model_schema, $key.'.'.$entry, $value);
+        foreach (Arr::wrap($keys) as $key) {
+            Arr::set($this->model_schema, $key.'.'.$entry, $set_value);
         }
 
         // Break the cache.

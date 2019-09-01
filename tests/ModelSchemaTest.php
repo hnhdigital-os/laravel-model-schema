@@ -221,6 +221,69 @@ class ModelSchemaTest extends TestCase
     }
 
     /**
+     * Assert changing hidden/visbile state.
+     *
+     * @return void
+     */
+    public function testHidingAttributes()
+    {
+        $model = new MockModel();
+
+        $this->assertSame([
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+
+        $this->assertSame([
+            'id',
+            'uuid',
+            'name',
+            'is_alive',
+            'enable_notifications',
+            'is_admin',
+        ], $model->getVisible());
+
+        $model->addHidden('uuid');
+
+        $this->assertSame([
+            'uuid',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+
+        $model->setHidden(['created_at', 'updated_at', 'deleted_at']);
+
+        $this->assertSame([
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+
+        $model->addVisible('created_at');
+
+        $this->assertSame([
+            'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+
+        $model->makeVisible(['created_at', 'updated_at']);
+
+        $this->assertSame([
+            'deleted_at',
+        ], $model->getHidden());
+
+        $model->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+
+        $this->assertSame([
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+    }
+
+    /**
      * Assert changing the fillable state of an attribute.
      *
      * @return void
