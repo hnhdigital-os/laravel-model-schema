@@ -124,7 +124,7 @@ class ModelSchemaTest extends TestCase
          */
         $rules = [
             'uuid'                 => 'string|nullable',
-            'name'                 => 'string|min:2|max:255',
+            'name'                 => 'string|required|min:2|max:255',
             'is_alive'             => 'boolean',
             'is_admin'             => 'boolean',
             'enable_notifications' => 'boolean',
@@ -462,8 +462,6 @@ class ModelSchemaTest extends TestCase
         }
 
         $this->assertInstanceOf(\Illuminate\Validation\Validator::class, $exception->getValidator());
-
-        $exception->getResponse('', []);
     }
 
     /**
