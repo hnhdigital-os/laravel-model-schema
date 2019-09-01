@@ -1,7 +1,7 @@
 php:
   - 7.2
   - 7.3
-  - 7.4
+  - 7.4snapshot
 language: php
 before_script:
   - composer self-update
@@ -11,3 +11,5 @@ before_script:
   - ./cc-test-reporter before-build
 after_script:
   - ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT
+allowed_failures:
+  - 7.4snapshot
