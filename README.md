@@ -7,7 +7,13 @@ ___  ___          _      _ _____      _
 \_|  |_/\___/ \__,_|\___|_\____/ \___|_| |_|\___|_| |_| |_|\__,_|
 ```
 
-Implements a schema approach to models. Combines the casts, fillable, hidden properties into a single schema property. This package provides the ability to store and validate automatically and implement custom casting.
+Combines the casts, fillable, and hidden properties into a single schema array property amongst other features.
+
+Other features include:
+
+* Custom configuration entries against your model attributes.
+* Store your attribute rules against your model and store and validate your model data automatically.
+* Custom casting is now possible using this package! See [Custom casts](#custom-casts).
 
 [![Latest Stable Version](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/v/stable.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Total Downloads](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/downloads.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Latest Unstable Version](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/v/unstable.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Built for Laravel](https://img.shields.io/badge/Built_for-Laravel-green.svg)](https://laravel.com/) [![License](https://poser.pugx.org/hnhdigital-os/laravel-model-schema/license.svg)](https://packagist.org/packages/hnhdigital-os/laravel-model-schema) [![Donate to this project using Patreon](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://patreon.com/RoccoHoward)
 
@@ -22,8 +28,7 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 * [Configuration](#configuration)
 * [Custom casts](#custom-casts)
 * [Contributing](#contributing)
-  * [Reporting issues](#reporting-issues)
-  * [Pull requests](#pull-requests)
+* [Reporting issues](#reporting-issues)
 * [Credits](#credits)
 * [License](#license)
 
@@ -210,13 +215,13 @@ Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/lar
 
 Only PRs that meet all criterium will be accepted.
 
+## Reporting issues
+
+When reporting issues, please fill out the included [template](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/ISSUE_TEMPLATE.md) as completely as possible. Incomplete issues may be ignored or closed if there is not enough information included to be actionable.
+
 ## Code of conduct
 
 Please observe and respect all aspects of the included [Code of Conduct](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CODE_OF_CONDUCT.md).
-
-### Reporting issues
-
-When reporting issues, please fill out the included [template](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/ISSUE_TEMPLATE.md) as completely as possible. Incomplete issues may be ignored or closed if there is not enough information included to be actionable.
 
 ## Credits
 
