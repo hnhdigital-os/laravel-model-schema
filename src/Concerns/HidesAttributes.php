@@ -85,7 +85,7 @@ trait HidesAttributes
      */
     public function addVisible($attributes = null)
     {
-        $this->setSchema('hidden', $attributes, false);
+        $this->setSchema('hidden', is_array($attributes) ? $attributes : func_get_args(), false);
 
         return $this;
     }
