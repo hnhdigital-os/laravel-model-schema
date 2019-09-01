@@ -456,11 +456,18 @@ class ModelSchemaTest extends TestCase
         $this->assertEquals($invalid_attributes, $model->getInvalidAttributes());
         $this->assertInstanceOf(\Illuminate\Validation\Validator::class, $exception->getValidator());
 
-        //$this->assertEquals('', $exception->getResponse('', []));
+        try {
+            $model = MockModel::create();
+        } catch (\HnhDigital\ModelSchema\Exceptions\ValidationException $exception) {
+        }
+
+        $this->assertInstanceOf(\Illuminate\Validation\Validator::class, $exception->getValidator());
+
+        $exception->getResponse('', []);
     }
 
     /**
-     * Assert write access of an attribute.
+     * Create model, test NullCarbon is returned.
      *
      * @return void
      */

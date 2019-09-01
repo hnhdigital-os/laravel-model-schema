@@ -30,7 +30,7 @@ class MockModel extends Model
         ],
         'name' => [
             'cast'     => 'string',
-            'rules'    => 'min:2|max:255',
+            'rules'    => 'required|min:2|max:255',
             'fillable' => true,
         ],
         'is_alive' => [
