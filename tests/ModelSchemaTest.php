@@ -268,9 +268,18 @@ class ModelSchemaTest extends TestCase
             'deleted_at',
         ], $model->getHidden());
 
-        $model->makeVisible(['created_at', 'updated_at']);
+        $model->setVisible([
+            'id',
+            'uuid',
+            'name',
+            'is_alive',
+            'enable_notifications',
+            'is_admin',
+        ]);
 
         $this->assertSame([
+            'created_at',
+            'updated_at',
             'deleted_at',
         ], $model->getHidden());
 
@@ -279,6 +288,12 @@ class ModelSchemaTest extends TestCase
         $this->assertSame([
             'created_at',
             'updated_at',
+            'deleted_at',
+        ], $model->getHidden());
+
+        $model->makeVisible(['created_at', 'updated_at']);
+
+        $this->assertSame([
             'deleted_at',
         ], $model->getHidden());
     }
