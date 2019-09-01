@@ -221,12 +221,6 @@ When reporting issues, please fill out the included [template](https://github.co
 
 Please review the [Contribution Guidelines](https://github.com/hnhdigital-os/laravel-model-schema/blob/master/CONTRIBUTING.md). Only PRs that meet all criterium will be accepted.
 
-## Give your open software some ❤ by giving it a ⭐
-
-We have included the awesome `symfony/thanks` composer package as a dev dependency.
-
-Run `composer thanks` after installing this package.
-
 ## Credits
 
 * [Rocco Howard](https://github.com/RoccoHoward)

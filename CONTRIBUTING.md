@@ -17,6 +17,7 @@ You MUST use the following coding standards:
 * [PSR-1](http://www.php-fig.org/psr/1/)
 * [PSR-2](http://www.php-fig.org/psr/2/)
 * [PSR-4](http://www.php-fig.org/psr/4/)
+* [PSR-12](http://www.php-fig.org/psr/12/)
 
 We use StyleCI to ensure these coding standards are consistently achieved.
 
@@ -32,7 +33,7 @@ You MUST do the following:
 * Write (or update) unit tests.
 * Run `composer test` and ensure everything passes.
 
-We use Travis and Code Climate to help us achieve successful unit testing, code quality and coverage.
+We use Travis and Code Climate to help us achieve successful unit testing, code quality, and coverage.
 
 ## Pull requests
 
@@ -44,4 +45,4 @@ You SHOULD do the following when preparing your request:
 * Explain why you think it should be implemented one way vs. another, highlight performance improvements, etc.
 
 Thanks!
-Rocco Howard, H&H|Digital
+[Rocco Howard](https://github.com/RoccoHoward)
