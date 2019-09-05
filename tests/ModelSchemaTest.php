@@ -20,7 +20,7 @@ class ModelSchemaTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         global $app;
 
@@ -415,11 +415,11 @@ class ModelSchemaTest extends TestCase
      * Assert creating a model fails when validation fails.
      *
      * @return void
-     *
-     * @expectedException HnhDigital\ModelSchema\Exceptions\ValidationException
      */
     public function testCreateModelValidationException()
     {
+        $this->expectException(\HnhDigital\ModelSchema\Exceptions\ValidationException::class);
+
         $model = MockModel::create([
             'name' => 't',
         ]);

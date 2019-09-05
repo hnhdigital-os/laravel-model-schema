@@ -261,6 +261,7 @@ class Model extends EloquentModel
      * @return array
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getAttributesFromSchema($entry = null, $with_value = false, $is_value = null)
     {
@@ -361,7 +362,7 @@ class Model extends EloquentModel
         if ($reset) {
             $current = $this->getSchema($entry);
 
-            foreach ($current as $key => $value) {
+            foreach (array_keys($current) as $key) {
                 if (is_null($reset_value)) {
                     unset($this->schema[$key][$entry]);
                     continue;
