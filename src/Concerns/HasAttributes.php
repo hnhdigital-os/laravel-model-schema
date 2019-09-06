@@ -190,7 +190,7 @@ trait HasAttributes
         $defaults = $this->getAttributesFromSchema('default', true);
 
         // Remove attributes that have been given values.
-        $defaults = array_except($defaults, array_keys($this->getDirty()));
+        $defaults = Arr::except($defaults, array_keys($this->getDirty()));
 
         // Unguard.
         static::unguard();
