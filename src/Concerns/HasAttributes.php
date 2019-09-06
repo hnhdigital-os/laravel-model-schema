@@ -84,14 +84,15 @@ trait HasAttributes
      * @var array
      */
     protected static $default_cast_validation = [
-        'uuid'     => 'string',
-        'bool'     => 'boolean',
-        'int'      => 'integer',
-        'real'     => 'numeric',
-        'float'    => 'numeric',
-        'double'   => 'numeric',
-        'decimal'  => 'numeric',
-        'datetime' => 'date',
+        'uuid'      => 'string',
+        'bool'      => 'boolean',
+        'int'       => 'integer',
+        'real'      => 'numeric',
+        'float'     => 'numeric',
+        'double'    => 'numeric',
+        'decimal'   => 'numeric',
+        'datetime'  => 'date',
+        'timestamp' => 'date',
     ];
 
     /**
