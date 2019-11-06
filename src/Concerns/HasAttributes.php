@@ -4,6 +4,9 @@ namespace HnhDigital\ModelSchema\Concerns;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
 use Illuminate\Validation\Validator;
 use HnhDigital\NullCarbon\NullCarbon;
 
@@ -711,6 +714,11 @@ trait HasAttributes
     public function savingValidation()
     {
         global $app;
+
+        // Create translator if missing.
+        if (is_null($app['translator'])) {
+            $app['translator'] = new Translator(new FileLoader(new Filesystem, 'lang'), 'en');
+        }
 
         $this->preValidationCast();
         $this->validator = new Validator($app['translator'], $this->getDirty(), $this->getAttributeRules());
