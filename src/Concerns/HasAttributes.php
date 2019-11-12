@@ -786,6 +786,10 @@ trait HasAttributes
      */
     private static function castType($cast_type, $value, $is_nullable)
     {
+        if ($value === 'NULL') {
+            $value = null;
+        }
+
         // Is null and allows null.
         if (is_null($value) && $is_nullable) {
             return $value;
@@ -859,7 +863,7 @@ trait HasAttributes
 
         // Assign specified rules.
         foreach ($rules as $key => $rule) {
-            $result[$key][] = $rule;
+            $result[$key][] = $this->verifyRule($rule);
         }
 
         // Key name could be composite. Only remove from rules if singlular.
@@ -878,6 +882,28 @@ trait HasAttributes
         }
 
         return $result;
+    }
+
+    /**
+     * Verify the rules.
+     *
+     * @param string $rules
+     *
+     * @return string
+     */
+    public function verifyRule($rule)
+    {
+        $rules = explode('|', $rule);
+
+        foreach ($rules as &$entry) {
+            if (stripos($entry, 'unique') !== false) {
+                if (stripos($entry, ':') === false) {
+                    $entry .= ':'.$this->getTable();
+                }
+            }
+        }
+
+        return implode('|', $rules);
     }
 
     /**
