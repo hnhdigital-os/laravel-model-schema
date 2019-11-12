@@ -11,11 +11,11 @@ namespace HnhDigital\ModelSchema;
  * file that was distributed with this source code.
  */
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes as EloquentHasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttributes;
-use Illuminate\Database\Eloquent\Concerns\GuardsAttributes as EloquentGuardsAttributes;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Support\Arr;
 
 /**
  * This is the Model class.
