@@ -56,10 +56,10 @@ trait HidesAttributes
      */
     public function getVisible()
     {
-        return array_diff(
+        return array_merge(array_diff(
             $this->getAttributesFromSchema(),
             $this->getAttributesFromSchema('hidden', false, true)
-        );
+        ), $this->appends);
     }
 
     /**
