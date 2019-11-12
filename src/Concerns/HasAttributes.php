@@ -2,13 +2,13 @@
 
 namespace HnhDigital\ModelSchema\Concerns;
 
+use HnhDigital\NullCarbon\NullCarbon;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Validator;
-use HnhDigital\NullCarbon\NullCarbon;
 
 trait HasAttributes
 {
