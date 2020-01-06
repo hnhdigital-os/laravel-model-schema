@@ -126,18 +126,18 @@ class Model extends EloquentModel
      */
     public static function schemaCollection()
     {
-        if (! empty(static::$schema_collection)) {
-            return static::$schema_collection;
+        if (! empty(static::$schema_collection[static::getDbTable()] )) {
+            return static::$schema_collection[static::getDbTable()];
         }
 
-        static::$schema_collection = collect();
+        static::$schema_collection[static::getDbTable()] = collect();
 
         foreach (static::$schema as $attribute_name => $schema) {
             $schema['attribute'] = $attribute_name;
-            static::$schema_collection->add($schema);
+            static::$schema_collection[static::getDbTable()]->add($schema);
         }
 
-        return static::$schema_collection;
+        return static::$schema_collection[static::getDbTable()];
     }
 
     /**
