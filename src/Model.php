@@ -126,7 +126,7 @@ class Model extends EloquentModel
      */
     public static function schemaCollection()
     {
-        if (! empty(static::$schema_collection[static::getDbTable()] )) {
+        if (! empty(static::$schema_collection[static::getDbTable()])) {
             return static::$schema_collection[static::getDbTable()];
         }
 
