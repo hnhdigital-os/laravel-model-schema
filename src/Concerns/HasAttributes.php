@@ -404,7 +404,7 @@ trait HasAttributes
     public function getAuthMethod($key)
     {
         if (Arr::has($this->getAuths(), $key)) {
-            $method = 'auth'.studly_case(Arr::get($this->getAuths(), $key));
+            $method = 'auth'.Str::studly(Arr::get($this->getAuths(), $key));
 
             return method_exists($this, $method) ? $method : false;
         }
