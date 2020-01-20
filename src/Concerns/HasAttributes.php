@@ -44,7 +44,7 @@ trait HasAttributes
         'commalist'  => 'castAsCommaList',
         'date'       => 'castAsDate',
         'datetime'   => 'castAsDateTime',
-        'timestamp'  => 'castAsTimestamp',
+        'timestamp'  => 'castAsDateTime',
     ];
 
     /**
