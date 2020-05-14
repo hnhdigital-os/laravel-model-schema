@@ -786,6 +786,7 @@ trait HasAttributes
      */
     private static function castType($cast_type, $value, $is_nullable)
     {
+
         if ($value === 'NULL') {
             $value = null;
         }
@@ -810,7 +811,11 @@ trait HasAttributes
         }
 
         // Integer type.
-        if ($cast_type === 'integer' && is_numeric($value)) {
+        if ($cast_type === 'integer') {
+            if (empty($value) && $is_nullable) {
+                return null;
+            }
+
             return intval($value);
         }
 
