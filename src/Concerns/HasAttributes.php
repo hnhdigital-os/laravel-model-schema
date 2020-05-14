@@ -816,7 +816,11 @@ trait HasAttributes
                 return null;
             }
 
-            return intval($value);
+            if (is_numeric($value)) {
+                return intval($value);
+            }
+
+            return 0;
         }
 
         $value = strval($value);
