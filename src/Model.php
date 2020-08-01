@@ -422,6 +422,21 @@ class Model extends EloquentModel
     }
 
     /**
+     * Determine if the model instance has been soft-deleted.
+     * This is a NullCarbon workaround.
+     *
+     * @return bool
+     */
+    public function isTrashed()
+    {
+        if (is_a($this->{$this->getDeletedAtColumn()}, \HnhDigital\NullCarbon\NullCarbon::class)) {
+            return $this->{$this->getDeletedAtColumn()}->getTimestamp() > 0;
+        }
+
+        return ! is_null($this->{$this->getDeletedAtColumn()});
+    }
+
+    /**
      * Boot events.
      *
      * @return void
