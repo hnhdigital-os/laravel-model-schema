@@ -786,7 +786,6 @@ trait HasAttributes
      */
     private static function castType($cast_type, $value, $is_nullable)
     {
-
         if ($value === 'NULL') {
             $value = null;
         }
