@@ -613,7 +613,7 @@ trait HasAttributes
      */
     protected function castAsDateTime($value)
     {
-        if (is_null($value)) {
+        if (is_null($value) || $value === '') {
             return new NullCarbon();
         }
 
