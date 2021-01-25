@@ -145,13 +145,19 @@ class Model extends EloquentModel
      *
      * @return string
      */
-    public function getTable()
+    public function getTable($column_name = null)
     {
         if (! empty(static::$db_table)) {
-            return static::$db_table;
+            $table = static::$db_table;
+
+            if (! is_null($column_name)) {
+                return $table.'.'.$column_name;
+            }
+
+            return $table;
         }
 
-        return parent::getTable();
+        return parent::getTable($column_name);
     }
 
     /**
@@ -159,8 +165,12 @@ class Model extends EloquentModel
      *
      * @return string
      */
-    public static function getDbTable()
+    public static function getDbTable($column_name = null)
     {
+        if (! is_null($column_name)) {
+            return static::$db_table.'.'.$column_name;
+        }
+
         return static::$db_table;
     }
 
