@@ -189,7 +189,7 @@ class Model extends EloquentModel
             return array_keys(static::schema());
         }
 
-        $attributes = static::schemaCache($entry.'_'.(int) $with_value);
+        $attributes = static::schemaCache(static::getDbTable().'_'.$entry.'_'.(int) $with_value);
 
         if ($attributes !== false) {
             return $attributes;
