@@ -44,6 +44,15 @@
             "phpmd ./src text phpmd.xml"
         ]
     },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "process-timeout": 2000,
+        "sort-packages": true,
+        "platform": {
+            "php": "7.3.0"
+        }
+    },
     "prefer-stable": true,
     "minimum-stability" : "dev"
 }
