@@ -145,8 +145,7 @@ trait HasAttributes
     /**
      * Has write access to a given key on this model.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return bool
      */
     public function hasWriteAccess($key)
@@ -251,9 +250,8 @@ trait HasAttributes
     /**
      * Cast an attribute to a native PHP type.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return mixed
      */
     protected function castAttribute($key, $value)
@@ -282,8 +280,7 @@ trait HasAttributes
      * Get the method to cast the value of this given key.
      * (when using getAttribute).
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string|array
      */
     protected function getCastFromMethod($key)
@@ -294,8 +291,7 @@ trait HasAttributes
     /**
      * Get the method to cast this attribte type.
      *
-     * @param string $type
-     *
+     * @param  string  $type
      * @return string|array|bool
      */
     protected function getCastFromDefinition($type)
@@ -316,8 +312,7 @@ trait HasAttributes
     /**
      * Get the method to cast this attribte tyepca.
      *
-     * @param string $type
-     *
+     * @param  string  $type
      * @return string|array|bool
      */
     protected function getCastAsParamaters($key)
@@ -333,8 +328,7 @@ trait HasAttributes
     /**
      * Parse the given cast parameters.
      *
-     * @param array $paramaters
-     *
+     * @param  array  $paramaters
      * @return array
      */
     private function parseCastParamaters($paramaters)
@@ -397,8 +391,7 @@ trait HasAttributes
     /**
      * Get auth method.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string|array
      */
     public function getAuthMethod($key)
@@ -415,9 +408,8 @@ trait HasAttributes
     /**
      * Set a given attribute on the model.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -464,8 +456,7 @@ trait HasAttributes
     /**
      * Determine if a auth check exists for an attribute.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return bool
      */
     public function hasAuthAttributeMutator($key)
@@ -477,8 +468,7 @@ trait HasAttributes
      * Get the method to cast the value of this given key.
      * (when using setAttribute).
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string|array
      */
     protected function getCastToMethod($key)
@@ -489,8 +479,7 @@ trait HasAttributes
     /**
      * Get the method to cast this attribte back to it's original form.
      *
-     * @param string $type
-     *
+     * @param  string  $type
      * @return string|array|bool
      */
     protected function getCastToDefinition($type)
@@ -511,8 +500,7 @@ trait HasAttributes
     /**
      * Cast value as an bool.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return bool
      */
     protected function castAsBool($value)
@@ -528,8 +516,7 @@ trait HasAttributes
     /**
      * Cast value as an int.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return int
      */
     protected function castAsInt($value)
@@ -540,8 +527,7 @@ trait HasAttributes
     /**
      * Cast value as a float.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return float
      */
     protected function castAsFloat($value)
@@ -561,8 +547,7 @@ trait HasAttributes
     /**
      * Cast value as a strng.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return string
      */
     protected function castAsString($value)
@@ -573,8 +558,7 @@ trait HasAttributes
     /**
      * Cast value .
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return array
      */
     protected function castAsArray($value)
@@ -585,8 +569,7 @@ trait HasAttributes
     /**
      * Cast value as an object.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return array
      */
     protected function castAsObject($value)
@@ -607,8 +590,7 @@ trait HasAttributes
     /**
      * Return a datetime as DateTime object.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return \Illuminate\Support\Carbon
      */
     protected function castAsDateTime($value)
@@ -637,8 +619,7 @@ trait HasAttributes
     /**
      * Ensure all DateTime casting is redirected.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return \Illuminate\Support\Carbon
      */
     protected function asDateTime($value)
@@ -760,9 +741,8 @@ trait HasAttributes
     /**
      * Pre-cast attribute to the correct value.
      *
-     * @param mixed $rules
-     * @param mixed $value
-     *
+     * @param  mixed  $rules
+     * @param  mixed  $value
      * @return mixed
      */
     public static function preCastAttribute($rules, $value)
@@ -784,10 +764,9 @@ trait HasAttributes
     /**
      * Cast a value to native.
      *
-     * @param string $cast_type
-     * @param mixed  $value
-     * @param bool   $is_nullable
-     *
+     * @param  string  $cast_type
+     * @param  mixed  $value
+     * @param  bool  $is_nullable
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -848,8 +827,7 @@ trait HasAttributes
     /**
      * Get rules for attributes.
      *
-     * @param string|null $attribute_key
-     *
+     * @param  string|null  $attribute_key
      * @return array
      */
     public function getAttributeRules($attribute_key = null)
@@ -908,8 +886,7 @@ trait HasAttributes
     /**
      * Verify the rules.
      *
-     * @param string $rules
-     *
+     * @param  string  $rules
      * @return string
      */
     public function verifyRule($rule)
@@ -930,8 +907,7 @@ trait HasAttributes
     /**
      * Convert attribute type to validation type.
      *
-     * @param string $type
-     *
+     * @param  string  $type
      * @return string
      */
     private function parseCastToValidator($type)
@@ -974,9 +950,8 @@ trait HasAttributes
     /**
      * Dynamically set attributes on the model.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return void
      */
     public function __set($key, $value)
@@ -989,9 +964,8 @@ trait HasAttributes
     /**
      * Register cast from database definition.
      *
-     * @param string $cast
-     * @param mixed  $method
-     *
+     * @param  string  $cast
+     * @param  mixed  $method
      * @return void
      */
     public static function registerCastFromDatabase($cast, $method)
@@ -1002,9 +976,8 @@ trait HasAttributes
     /**
      * Register cast to database definition.
      *
-     * @param string $cast
-     * @param mixed  $method
-     *
+     * @param  string  $cast
+     * @param  mixed  $method
      * @return void
      */
     public static function registerCastToDatabase($cast, $method)
@@ -1015,9 +988,8 @@ trait HasAttributes
     /**
      * Register cast to database definition.
      *
-     * @param string $cast
-     * @param string $validator
-     *
+     * @param  string  $cast
+     * @param  string  $validator
      * @return void
      */
     public static function registerCastValidator($cast, $validator)
