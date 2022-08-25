@@ -17,8 +17,7 @@ trait GuardsAttributes
     /**
      * Set the fillable attributes for the model.
      *
-     * @param array $fillable
-     *
+     * @param  array  $fillable
      * @return $this
      */
     public function fillable(array $fillable)
@@ -45,8 +44,7 @@ trait GuardsAttributes
     /**
      * Set the guarded attributes for the model.
      *
-     * @param array $guarded
-     *
+     * @param  array  $guarded
      * @return $this
      */
     public function guard(array $guarded)

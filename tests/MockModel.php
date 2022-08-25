@@ -75,8 +75,7 @@ class MockModel extends Model
     /**
      * Set attribute.
      *
-     * @param bool $value
-     *
+     * @param  bool  $value
      * @return void
      */
     public function setIsAliveAttribute($value)

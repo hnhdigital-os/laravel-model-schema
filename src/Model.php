@@ -106,8 +106,7 @@ class Model extends EloquentModel
     /**
      * Get the schema for this model.
      *
-     * @param string|null $key
-     *
+     * @param  string|null  $key
      * @return array
      */
     public static function schema($key = null)
@@ -177,8 +176,7 @@ class Model extends EloquentModel
     /**
      * Get attributes from the schema of this model.
      *
-     * @param null|string $entry
-     *
+     * @param  null|string  $entry
      * @return array
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
@@ -218,9 +216,8 @@ class Model extends EloquentModel
     /**
      * Set or get Cache for this key.
      *
-     * @param string $key
-     * @param array  $data
-     *
+     * @param  string  $key
+     * @param  array  $data
      * @return void
      */
     private static function schemaCache(...$args)
@@ -242,8 +239,7 @@ class Model extends EloquentModel
     /**
      * Break cache for this key.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
@@ -266,8 +262,7 @@ class Model extends EloquentModel
     /**
      * Get attributes from the schema of this model.
      *
-     * @param null|string $entry
-     *
+     * @param  null|string  $entry
      * @return array
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
@@ -316,9 +311,8 @@ class Model extends EloquentModel
     /**
      * Cache for this key.
      *
-     * @param string $key
-     * @param array  $data
-     *
+     * @param  string  $key
+     * @param  array  $data
      * @return void
      */
     private function setSchemaCache($key, $data)
@@ -329,8 +323,7 @@ class Model extends EloquentModel
     /**
      * Get cache for this key.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return void
      */
     private function getSchemaCache($key)
@@ -345,8 +338,7 @@ class Model extends EloquentModel
     /**
      * Break cache for this key.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return void
      */
     private function breakSchemaCache($key)
@@ -357,11 +349,10 @@ class Model extends EloquentModel
     /**
      * Set an entry within the schema.
      *
-     * @param string       $entry
-     * @param string|array $keys
-     * @param bool         $reset
-     * @param mixed        $reset_value
-     *
+     * @param  string  $entry
+     * @param  string|array  $keys
+     * @param  bool  $reset
+     * @param  mixed  $reset_value
      * @return array
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
@@ -397,8 +388,7 @@ class Model extends EloquentModel
     /**
      * Assign an array of data to this model.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return $this
      */
     public function assign($data)
@@ -413,9 +403,8 @@ class Model extends EloquentModel
     /**
      * Cache this value.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return mixed
      */
     protected function cache($key, $value)

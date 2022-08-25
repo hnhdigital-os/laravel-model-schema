@@ -23,10 +23,10 @@ class ValidationException extends \Exception
     /**
      * Exception constructor.
      *
-     * @param string         $message
-     * @param int            $code
-     * @param Exception|null $previous
-     * @param Validator|null $validator
+     * @param  string  $message
+     * @param  int  $code
+     * @param  Exception|null  $previous
+     * @param  Validator|null  $validator
      */
     public function __construct($message = null, $code = 0, Exception $previous = null, $validator = null)
     {
