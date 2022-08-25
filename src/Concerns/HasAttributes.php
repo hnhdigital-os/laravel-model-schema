@@ -261,7 +261,7 @@ trait HasAttributes
         $method = $this->getCastFromMethod($key);
 
         if ($method === false) {
-            return $value;
+            return parent::castAttribute($key, $value);
         }
 
         if (stripos($method, 'date') === false && is_null($value)) {
@@ -275,7 +275,7 @@ trait HasAttributes
             return $this->$method($value, ...$paramaters);
         }
 
-        return $value;
+        return parent::castAttribute($key, $value);
     }
 
     /**
@@ -720,8 +720,15 @@ trait HasAttributes
             $app['translator'] = new Translator(new FileLoader(new Filesystem, 'lang'), 'en');
         }
 
-        $this->preValidationCast();
-        $this->validator = new Validator($app['translator'], $this->getDirty(), $this->getAttributeRules());
+        $dirty_attributes = $this->preValidationCast();
+
+        // Remove casting class attributes from being validated.
+        foreach ($this->getCasts() as $key => $cast) {
+            if (class_exists($cast)) {
+                unset($dirty_attributes[$key]);
+            }
+        }
+        $this->validator = new Validator($app['translator'], $dirty_attributes, $this->getAttributeRules());
 
         if ($this->validator->fails()) {
             return false;
@@ -736,7 +743,7 @@ trait HasAttributes
      * Mostly integer or boolean values where they can be set to either.
      * eg 1 for true.
      *
-     * @return void
+     * @return array
      */
     private function preValidationCast()
     {
@@ -746,6 +753,8 @@ trait HasAttributes
         foreach ($this->getDirty() as $key => $value) {
             $this->attributes[$key] = static::preCastAttribute(Arr::get($rules, $key, ''), $value);
         }
+
+        return $this->getDirty();
     }
 
     /**
@@ -820,6 +829,10 @@ trait HasAttributes
             }
 
             return 0;
+        }
+
+        if (class_exists($cast_type)) {
+            return $value;
         }
 
         $value = strval($value);

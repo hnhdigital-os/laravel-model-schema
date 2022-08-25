@@ -451,10 +451,8 @@ class Model extends EloquentModel
      *
      * @return void
      */
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
         // Boot event for creating this model.
         // Set default values if specified.
         // Validate dirty attributes before commiting to save.
