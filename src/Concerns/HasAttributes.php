@@ -705,10 +705,13 @@ trait HasAttributes
 
         // Remove casting class attributes from being validated.
         foreach ($this->getCasts() as $key => $cast) {
-            if (class_exists($cast)) {
+            if (class_exists($cast)
+                && ! Arr::has(static::$default_cast_validation, $cast)
+                && ! Arr::has(static::$default_cast_from, $cast)) {
                 unset($dirty_attributes[$key]);
             }
         }
+
         $this->validator = new Validator($app['translator'], $dirty_attributes, $this->getAttributeRules());
 
         if ($this->validator->fails()) {
