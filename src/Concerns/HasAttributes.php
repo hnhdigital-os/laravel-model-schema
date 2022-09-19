@@ -831,7 +831,7 @@ trait HasAttributes
      * Get rules for attributes.
      *
      * @param  string|null  $attribute_key
-     * @return array
+     * @return array|string
      */
     public function getAttributeRules($attribute_key = null)
     {

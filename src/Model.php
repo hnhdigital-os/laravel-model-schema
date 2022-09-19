@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Concerns\HasAttributes as EloquentHasAttributes
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes as EloquentHidesAttributes;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * This is the Model class.
@@ -57,7 +58,7 @@ class Model extends EloquentModel
     /**
      * Describe the database table.
      *
-     * @var array
+     * @var string
      */
     protected static $db_table;
 
@@ -388,7 +389,7 @@ class Model extends EloquentModel
     /**
      * Assign an array of data to this model.
      *
-     * @param  array  $data
+     * @param  Collection|array  $data
      * @return $this
      */
     public function assign($data)
