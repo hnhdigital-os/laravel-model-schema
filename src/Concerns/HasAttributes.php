@@ -212,7 +212,7 @@ trait HasAttributes
     /**
      * Check if model has attribute.
      */
-    public function hasAttribute($attribute) : bool
+    public function hasAttribute($attribute): bool
     {
         return in_array($attribute, $this->fromSchema());
     }
