@@ -32,14 +32,14 @@ This package has been developed by H&H|Digital, an Australian botique developer.
 
 ## Prerequisites
 
-* PHP >= 7.2
-* Laravel >= 5.8
+* PHP >= 8.0.2
+* Laravel >= 9.0
 
 ## Installation
 
 Via composer:
 
-`$ composer require hnhdigital-os/laravel-model-schema ~1.0`
+`$ composer require hnhdigital-os/laravel-model-schema ~3.0`
 
 ## Configuration
 
