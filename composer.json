@@ -10,15 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.3",
-        "laravel/framework": "^7.0|^8.0",
-        "hnhdigital-os/laravel-null-carbon": "~2.0"
+        "php": "^8.0.2",
+        "laravel/framework": "^9.0",
+        "hnhdigital-os/laravel-null-carbon": "~3.0"
     },
     "require-dev": {
-        "illuminate/database": "^7.0|^8.0",
-        "phpunit/phpunit": "^8.3",
-        "phpmd/phpmd" : "~2.0",
-        "squizlabs/php_codesniffer" : "~3.0"
+        "illuminate/database": "^9.0",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {
@@ -30,27 +28,13 @@
             "HnhDigital\\ModelSchema\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-        "test": [
-            "composer phpunit && composer phpcs && composer phpmd"
-        ],
-        "phpunit": [
-            "phpunit"
-        ],
-        "phpcs": [
-            "phpcs -p -s --standard=PSR2 ./src ./tests"
-        ],
-        "phpmd": [
-            "phpmd ./src text phpmd.xml"
-        ]
-    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "process-timeout": 2000,
         "sort-packages": true,
         "platform": {
-            "php": "7.3.0"
+            "php": "8.0.2"
         }
     },
     "prefer-stable": true,
