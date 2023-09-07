@@ -702,11 +702,9 @@ trait HasAttributes
      */
     public function savingValidation()
     {
-        global $app;
-
         // Create translator if missing.
-        if (is_null($app['translator'])) {
-            $app['translator'] = new Translator(new FileLoader(new Filesystem, 'lang'), 'en');
+        if (is_null(app('translator'))) {
+            app()->bind('translator', new Translator(new FileLoader(new Filesystem, 'lang'), 'en'));
         }
 
         $dirty_attributes = $this->preValidationCast();
@@ -720,7 +718,7 @@ trait HasAttributes
             }
         }
 
-        $this->validator = new Validator($app['translator'], $dirty_attributes, $this->getAttributeRules());
+        $this->validator = new Validator(app('translator'), $dirty_attributes, $this->getAttributeRules());
 
         if ($this->validator->fails()) {
             return false;
